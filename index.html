@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Visitor Arrivals to Malaysia</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Import Vega & Vega-Lite -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+    <!-- Import pure.css -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+        integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- CSS file -->
+    <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- Header Section -->
+        <div class="header">
+            <h1>VISITOR ARRIVALS TO MALAYSIA</h1>
+            <p class="subtitle">Comprehensive Analysis of Tourism Trends (2019-2025)</p>
+        </div>
+
+        <!-- Main Content Section -->
+        <div class="pure-g main-content">
+
+            <!-- Left Side: Bar Chart and Controls -->
+            <div class="pure-u-1-2 left-panel">
+
+                <!-- Category Tabs -->
+                <div class="category-tabs">
+                    <button class="tab-button active" onclick="selectCategory('Visitors')" id="tab-visitors">
+                        Visitors
+                    </button>
+                    <button class="tab-button" onclick="selectCategory('Tourists')" id="tab-tourists">
+                        Tourists
+                    </button>
+                    <button class="tab-button" onclick="selectCategory('Excursionists')" id="tab-excursionists">
+                        Excursionists
+                    </button>
+                </div>
+
+                <!-- Toggle Buttons -->
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" id="btn-year" onclick="toggleView('year')">Year</button>
+                    <button class="toggle-btn" id="btn-month" onclick="toggleView('month')">Month</button>
+                </div>
+
+                <!-- Bar Chart Container -->
+                <div id="bar-chart" class="vis-container"></div>
+
+                <!-- Year Selection Buttons -->
+                <div class="year-buttons" id="year-buttons">
+                    <button class="year-btn active" onclick="selectYear('all')" id="year-all">Select all</button>
+                    <button class="year-btn" onclick="selectYear(2019)" id="year-2019">2019</button>
+                    <button class="year-btn" onclick="selectYear(2020)" id="year-2020">2020</button>
+                    <button class="year-btn" onclick="selectYear(2021)" id="year-2021">2021</button>
+                    <button class="year-btn" onclick="selectYear(2022)" id="year-2022">2022</button>
+                    <button class="year-btn" onclick="selectYear(2023)" id="year-2023">2023</button>
+                    <button class="year-btn" onclick="selectYear(2024)" id="year-2024">2024</button>
+                    <button class="year-btn" onclick="selectYear(2025)" id="year-2025">2025</button>
+                </div>
+
+                <!-- Data Attribution -->
+                <div class="data-note">
+                    <p>Data as at Jul 2025</p>
+                </div>
+            </div>
+
+            <!-- Right Side: World Map -->
+            <div class="pure-u-1-2 right-panel">
+                <h2 class="section-title">Arrivals by Source Country (2024-2025 YTD)</h2>
+
+                <!-- World Map Container -->
+                <div id="world-map" class="vis-container"></div>
+
+                <p class="chart-description">
+                    Circle size represents number of arrivals. Color indicates growth rate compared to 2024.
+                </p>
+            </div>
+        </div>
+
+        <!-- Bottom Section: Transportation and Country Charts -->
+        <div class="bottom-section">
+            <div class="pure-g">
+
+                <!-- Transportation Mode Chart -->
+                <div class="pure-u-1-2 chart-panel">
+                    <h2 class="section-title">Transportation Mode Distribution</h2>
+                    <div id="transportation-chart" class="vis-container"></div>
+                    <p class="chart-description">
+                        Share of arrivals by transportation mode
+                    </p>
+                </div>
+
+                <!-- Country Arrivals Pie Chart -->
+                <div class="pure-u-1-2 chart-panel">
+                    <h2 class="section-title">Overall Arrivals by Country</h2>
+                    <div id="country-pie-chart" class="vis-container"></div>
+                    <p class="chart-description">
+                        Distribution of total arrivals by source country (2024-2025 YTD)
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        let currentCategory = 'Visitors';
+        let currentYear = 'all';
+        let currentView = 'year'; // 'year' or 'month'
+
+        // Load initial visualizations
+        function loadVisualizations() {
+            loadBarChart();
+            loadWorldMap();
+            loadTransportationChart();
+            loadCountryPieChart();
+        }
+
+        // Load World Map
+        function loadWorldMap() {
+            fetch('charts/world_map.json')
+                .then(response => response.json())
+                .then(spec => {
+                    // Update the category filter in the transform
+                    spec.layer[3].transform[0].filter = "datum.Category == '" + currentCategory + "'";
+                    vegaEmbed('#world-map', spec, {
+                        "actions": false,
+                        "renderer": "svg"
+                    }).catch(console.error);
+                });
+        }
+
+        // Load Transportation Chart
+        function loadTransportationChart() {
+            fetch('charts/transportation_chart.json')
+                .then(response => response.json())
+                .then(spec => {
+                    // Update the category filter in the transform
+                    spec.transform[0].filter = "datum.Category == '" + currentCategory + "'";
+                    vegaEmbed('#transportation-chart', spec, {
+                        "actions": false,
+                        "renderer": "svg"
+                    }).catch(console.error);
+                });
+        }
+
+        // Load Country Pie Chart
+        function loadCountryPieChart() {
+            vegaEmbed('#country-pie-chart', 'charts/country_pie_chart.json', {
+                "actions": false,
+                "renderer": "svg"
+            }).catch(console.error);
+        }
+
+        // Category selection
+        function selectCategory(category) {
+            currentCategory = category;
+
+            // Update active tab
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('tab-' + category.toLowerCase()).classList.add('active');
+
+            // Reload all charts with new category
+            loadBarChart();
+            loadWorldMap();
+            loadTransportationChart();
+        }
+
+        // Toggle between Year and Month view
+        function toggleView(view) {
+            currentView = view;
+            currentYear = 'all'; // Reset year selection when toggling
+
+            // Update active toggle button
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('btn-' + view).classList.add('active');
+
+            // Update year buttons visibility
+            if (view === 'month') {
+                document.getElementById('year-buttons').style.display = 'none';
+            } else {
+                document.getElementById('year-buttons').style.display = 'flex';
+                // Reset to "select all"
+                document.querySelectorAll('.year-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.getElementById('year-all').classList.add('active');
+            }
+
+            // Reload chart
+            loadBarChart();
+        }
+
+        // Year selection
+        function selectYear(year) {
+            currentYear = year;
+
+            // Update active button
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('year-' + year).classList.add('active');
+
+            // Reload chart
+            loadBarChart();
+        }
+
+        // Load bar chart based on current view (year or month)
+        function loadBarChart() {
+            if (currentView === 'year') {
+                loadYearlyBarChart();
+            } else {
+                loadMonthlyBarChart();
+            }
+        }
+
+        // Load yearly bar chart
+        function loadYearlyBarChart() {
+            let spec = {
+                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                "width": 550,
+                "height": 400,
+                "data": {
+                    "url": "data/yearly_arrivals.csv"
+                },
+                "transform": [
+                    { "filter": "datum.Category == '" + currentCategory + "'" }
+                ],
+                "mark": {
+                    "type": "bar",
+                    "cursor": "pointer",
+                    "tooltip": true,
+                    "cornerRadiusEnd": 4
+                },
+                "encoding": {
+                    "x": {
+                        "field": "Year",
+                        "type": "ordinal",
+                        "axis": {
+                            "labelAngle": 0,
+                            "title": null,
+                            "labelFontSize": 13,
+                            "grid": false,
+                            "labelColor": "#666"
+                        }
+                    },
+                    "y": {
+                        "field": "Arrivals_millions",
+                        "type": "quantitative",
+                        "axis": {
+                            "title": "Arrivals (millions)",
+                            "grid": true,
+                            "gridOpacity": 0.2,
+                            "labelFontSize": 12,
+                            "labelColor": "#666"
+                        }
+                    },
+                    "color": {
+                        "value": "#5EB3B3"
+                    },
+                    "opacity": {
+                        "value": 1
+                    },
+                    "tooltip": [
+                        { "field": "Year", "type": "ordinal", "title": "Year" },
+                        { "field": "Category", "type": "nominal", "title": "Category" },
+                        { "field": "Arrivals_millions", "type": "quantitative", "title": "Arrivals (millions)", "format": ".1f" }
+                    ]
+                },
+                "config": {
+                    "view": { "stroke": null },
+                    "axis": {
+                        "labelFont": "Roboto, Arial, sans-serif",
+                        "titleFont": "Roboto, Arial, sans-serif"
+                    }
+                }
+            };
+
+            // Apply year filter if not "all" - make other bars transparent
+            if (currentYear !== 'all') {
+                spec.encoding.opacity = {
+                    "condition": {
+                        "test": "datum.Year == " + currentYear,
+                        "value": 1
+                    },
+                    "value": 0.15
+                };
+            }
+
+            vegaEmbed('#bar-chart', spec, {
+                "actions": false,
+                "renderer": "svg"
+            }).catch(console.error);
+        }
+
+        // Load monthly bar chart
+        function loadMonthlyBarChart() {
+            let spec = {
+                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                "width": 550,
+                "height": 400,
+                "data": {
+                    "url": "data/monthly_arrivals.csv"
+                },
+                "transform": [
+                    { "filter": "datum.Category == '" + currentCategory + "'" },
+                    { "calculate": "datum.Year + '-' + datum.Month", "as": "YearMonth" }
+                ],
+                "mark": {
+                    "type": "bar",
+                    "cursor": "pointer",
+                    "tooltip": true,
+                    "cornerRadiusEnd": 4
+                },
+                "encoding": {
+                    "x": {
+                        "field": "YearMonth",
+                        "type": "ordinal",
+                        "axis": {
+                            "labelAngle": -45,
+                            "title": null,
+                            "labelFontSize": 11,
+                            "grid": false,
+                            "labelColor": "#666"
+                        }
+                    },
+                    "y": {
+                        "field": "Arrivals",
+                        "type": "quantitative",
+                        "axis": {
+                            "title": "Arrivals",
+                            "grid": true,
+                            "gridOpacity": 0.2,
+                            "labelFontSize": 12,
+                            "labelColor": "#666",
+                            "format": ".2s"
+                        }
+                    },
+                    "color": {
+                        "field": "Year",
+                        "type": "nominal",
+                        "scale": {
+                            "domain": ["2024", "2025"],
+                            "range": ["#3D9999", "#5EB3B3"]
+                        },
+                        "legend": {
+                            "title": "Year",
+                            "orient": "top-right",
+                            "labelFontSize": 12
+                        }
+                    },
+                    "tooltip": [
+                        { "field": "Year", "type": "ordinal", "title": "Year" },
+                        { "field": "Month", "type": "nominal", "title": "Month" },
+                        { "field": "Category", "type": "nominal", "title": "Category" },
+                        { "field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": "," }
+                    ]
+                },
+                "config": {
+                    "view": { "stroke": null },
+                    "axis": {
+                        "labelFont": "Roboto, Arial, sans-serif",
+                        "titleFont": "Roboto, Arial, sans-serif"
+                    }
+                }
+            };
+
+            vegaEmbed('#bar-chart', spec, {
+                "actions": false,
+                "renderer": "svg"
+            }).catch(console.error);
+        }
+
+        // Initialize on page load
+        window.onload = function () {
+            loadVisualizations();
+        };
+    </script>
+</body>
+
+</html>
