@@ -1,0 +1,153 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500,
+    "height": 300,
+    "data": {
+        "values": [
+            {
+                "Category": "Visitors",
+                "Transport_Mode": "LAND",
+                "Share_pct": 66.2
+            },
+            {
+                "Category": "Visitors",
+                "Transport_Mode": "AIR",
+                "Share_pct": 28.8
+            },
+            {
+                "Category": "Visitors",
+                "Transport_Mode": "SEA",
+                "Share_pct": 3.7
+            },
+            {
+                "Category": "Visitors",
+                "Transport_Mode": "RAIL",
+                "Share_pct": 1.2
+            },
+            {
+                "Category": "Tourists",
+                "Transport_Mode": "LAND",
+                "Share_pct": 50.3
+            },
+            {
+                "Category": "Tourists",
+                "Transport_Mode": "AIR",
+                "Share_pct": 42.9
+            },
+            {
+                "Category": "Tourists",
+                "Transport_Mode": "SEA",
+                "Share_pct": 5.8
+            },
+            {
+                "Category": "Tourists",
+                "Transport_Mode": "RAIL",
+                "Share_pct": 1.0
+            },
+            {
+                "Category": "Excursionists",
+                "Transport_Mode": "LAND",
+                "Share_pct": 92.7
+            },
+            {
+                "Category": "Excursionists",
+                "Transport_Mode": "AIR",
+                "Share_pct": 5.3
+            },
+            {
+                "Category": "Excursionists",
+                "Transport_Mode": "SEA",
+                "Share_pct": 0.4
+            },
+            {
+                "Category": "Excursionists",
+                "Transport_Mode": "RAIL",
+                "Share_pct": 1.6
+            }
+        ]
+    },
+    "transform": [
+        {
+            "filter": "datum.Category == 'Visitors'"
+        }
+    ],
+    "mark": {
+        "type": "bar",
+        "tooltip": true,
+        "cornerRadiusEnd": 4
+    },
+    "encoding": {
+        "x": {
+            "field": "Transport_Mode",
+            "type": "nominal",
+            "title": "Transport Mode",
+            "axis": {
+                "labelAngle": 0,
+                "labelFontSize": 12,
+                "titleFontSize": 13,
+                "titleFontWeight": 600,
+                "labelColor": "#666"
+            },
+            "sort": "-y"
+        },
+        "y": {
+            "field": "Share_pct",
+            "type": "quantitative",
+            "title": "Share (%)",
+            "axis": {
+                "grid": true,
+                "gridOpacity": 0.2,
+                "labelFontSize": 11,
+                "titleFontSize": 13,
+                "titleFontWeight": 600,
+                "labelColor": "#666"
+            }
+        },
+        "color": {
+            "field": "Transport_Mode",
+            "type": "nominal",
+            "scale": {
+                "domain": [
+                    "LAND",
+                    "AIR",
+                    "SEA",
+                    "RAIL"
+                ],
+                "range": [
+                    "#5EB3B3",
+                    "#f39c12",
+                    "#3498db",
+                    "#9b59b6"
+                ]
+            },
+            "legend": null
+        },
+        "tooltip": [
+            {
+                "field": "Transport_Mode",
+                "type": "nominal",
+                "title": "Transport Mode"
+            },
+            {
+                "field": "Share_pct",
+                "type": "quantitative",
+                "title": "Share %",
+                "format": ".1f"
+            },
+            {
+                "field": "Category",
+                "type": "nominal",
+                "title": "Category"
+            }
+        ]
+    },
+    "config": {
+        "view": {
+            "stroke": null
+        },
+        "axis": {
+            "labelFont": "Roboto, Arial, sans-serif",
+            "titleFont": "Roboto, Arial, sans-serif"
+        }
+    }
+}

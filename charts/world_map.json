@@ -1,0 +1,358 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 600,
+    "height": 400,
+    "projection": {
+        "type": "equirectangular",
+        "center": [
+            100,
+            10
+        ],
+        "scale": 400
+    },
+    "layer": [
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "oceans"
+                }
+            },
+            "mark": {
+                "type": "geoshape",
+                "fill": "#d4e9f2"
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "ne_110m_admin_0_countries"
+                }
+            },
+            "mark": {
+                "type": "geoshape",
+                "fill": "#e8e8e8",
+                "stroke": "white",
+                "strokeWidth": 0.5
+            }
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
+                "format": {
+                    "type": "topojson",
+                    "feature": "ne_110m_graticules_30"
+                }
+            },
+            "mark": {
+                "type": "geoshape",
+                "fill": null,
+                "stroke": "lightgray",
+                "strokeWidth": 0.3
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "Category": "Visitors",
+                        "Country": "Singapore",
+                        "Arrivals": 6526262,
+                        "Growth_pct": 28.5,
+                        "Latitude": 1.3521,
+                        "Longitude": 103.8198
+                    },
+                    {
+                        "Category": "Visitors",
+                        "Country": "China",
+                        "Arrivals": 1441184,
+                        "Growth_pct": 37.8,
+                        "Latitude": 35.8617,
+                        "Longitude": 104.1954
+                    },
+                    {
+                        "Category": "Visitors",
+                        "Country": "Indonesia",
+                        "Arrivals": 1466923,
+                        "Growth_pct": 11.6,
+                        "Latitude": -0.7893,
+                        "Longitude": 113.9213
+                    },
+                    {
+                        "Category": "Visitors",
+                        "Country": "Thailand",
+                        "Arrivals": 833610,
+                        "Growth_pct": 3.4,
+                        "Latitude": 15.8700,
+                        "Longitude": 100.9925
+                    },
+                    {
+                        "Category": "Visitors",
+                        "Country": "Brunei",
+                        "Arrivals": 480916,
+                        "Growth_pct": -20.1,
+                        "Latitude": 4.5353,
+                        "Longitude": 114.7277
+                    },
+                    {
+                        "Category": "Visitors",
+                        "Country": "India",
+                        "Arrivals": 484791,
+                        "Growth_pct": 36.6,
+                        "Latitude": 20.5937,
+                        "Longitude": 78.9629
+                    },
+                    {
+                        "Category": "Tourists",
+                        "Country": "Singapore",
+                        "Arrivals": 2718152,
+                        "Growth_pct": 4.6,
+                        "Latitude": 1.3521,
+                        "Longitude": 103.8198
+                    },
+                    {
+                        "Category": "Tourists",
+                        "Country": "China",
+                        "Arrivals": 1231072,
+                        "Growth_pct": 28.8,
+                        "Latitude": 35.8617,
+                        "Longitude": 104.1954
+                    },
+                    {
+                        "Category": "Tourists",
+                        "Country": "Indonesia",
+                        "Arrivals": 1288979,
+                        "Growth_pct": 12.0,
+                        "Latitude": -0.7893,
+                        "Longitude": 113.9213
+                    },
+                    {
+                        "Category": "Tourists",
+                        "Country": "Thailand",
+                        "Arrivals": 593305,
+                        "Growth_pct": 9.1,
+                        "Latitude": 15.8700,
+                        "Longitude": 100.9925
+                    },
+                    {
+                        "Category": "Tourists",
+                        "Country": "India",
+                        "Arrivals": 382401,
+                        "Growth_pct": 28.9,
+                        "Latitude": 20.5937,
+                        "Longitude": 78.9629
+                    },
+                    {
+                        "Category": "Tourists",
+                        "Country": "Brunei",
+                        "Arrivals": 314480,
+                        "Growth_pct": -19.5,
+                        "Latitude": 4.5353,
+                        "Longitude": 114.7277
+                    },
+                    {
+                        "Category": "Excursionists",
+                        "Country": "Singapore",
+                        "Arrivals": 3808110,
+                        "Growth_pct": 53.7,
+                        "Latitude": 1.3521,
+                        "Longitude": 103.8198
+                    },
+                    {
+                        "Category": "Excursionists",
+                        "Country": "China",
+                        "Arrivals": 240305,
+                        "Growth_pct": -8.3,
+                        "Latitude": 35.8617,
+                        "Longitude": 104.1954
+                    },
+                    {
+                        "Category": "Excursionists",
+                        "Country": "Indonesia",
+                        "Arrivals": 210112,
+                        "Growth_pct": 133.7,
+                        "Latitude": -0.7893,
+                        "Longitude": 113.9213
+                    },
+                    {
+                        "Category": "Excursionists",
+                        "Country": "Thailand",
+                        "Arrivals": 177944,
+                        "Growth_pct": 9.2,
+                        "Latitude": 15.8700,
+                        "Longitude": 100.9925
+                    },
+                    {
+                        "Category": "Excursionists",
+                        "Country": "Brunei",
+                        "Arrivals": 166436,
+                        "Growth_pct": -21.4,
+                        "Latitude": 4.5353,
+                        "Longitude": 114.7277
+                    },
+                    {
+                        "Category": "Excursionists",
+                        "Country": "India",
+                        "Arrivals": 102390,
+                        "Growth_pct": 75.4,
+                        "Latitude": 20.5937,
+                        "Longitude": 78.9629
+                    }
+                ]
+            },
+            "transform": [
+                {
+                    "filter": "datum.Category == 'Visitors'"
+                }
+            ],
+            "mark": {
+                "type": "circle",
+                "tooltip": true,
+                "stroke": "white",
+                "strokeWidth": 1.5
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "Longitude",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "Latitude",
+                    "type": "quantitative"
+                },
+                "size": {
+                    "field": "Arrivals",
+                    "type": "quantitative",
+                    "title": "Arrivals",
+                    "scale": {
+                        "domain": [
+                            100000,
+                            7000000
+                        ],
+                        "range": [
+                            100,
+                            3000
+                        ]
+                    },
+                    "legend": {
+                        "format": ".2s",
+                        "orient": "bottom-right"
+                    }
+                },
+                "color": {
+                    "field": "Growth_pct",
+                    "type": "quantitative",
+                    "title": "Growth %",
+                    "scale": {
+                        "domain": [
+                            -25,
+                            0,
+                            50,
+                            150
+                        ],
+                        "range": [
+                            "#d73027",
+                            "#fee08b",
+                            "#66c2a5",
+                            "#3288bd"
+                        ]
+                    },
+                    "legend": {
+                        "orient": "bottom-right",
+                        "direction": "horizontal"
+                    }
+                },
+                "tooltip": [
+                    {
+                        "field": "Country",
+                        "type": "nominal",
+                        "title": "Country"
+                    },
+                    {
+                        "field": "Category",
+                        "type": "nominal",
+                        "title": "Category"
+                    },
+                    {
+                        "field": "Arrivals",
+                        "type": "quantitative",
+                        "title": "Arrivals",
+                        "format": ","
+                    },
+                    {
+                        "field": "Growth_pct",
+                        "type": "quantitative",
+                        "title": "Growth %",
+                        "format": ".1f"
+                    }
+                ]
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "Longitude": 101.9758,
+                        "Latitude": 4.2105,
+                        "label": "🇲🇾 Malaysia"
+                    }
+                ]
+            },
+            "mark": {
+                "type": "text",
+                "fontSize": 13,
+                "fontWeight": "bold",
+                "color": "#e74c3c",
+                "dy": -10
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "Longitude",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "Latitude",
+                    "type": "quantitative"
+                },
+                "text": {
+                    "field": "label",
+                    "type": "nominal"
+                }
+            }
+        },
+        {
+            "data": {
+                "values": [
+                    {
+                        "Longitude": 101.9758,
+                        "Latitude": 4.2105
+                    }
+                ]
+            },
+            "mark": {
+                "type": "circle",
+                "size": 200,
+                "color": "#e74c3c",
+                "opacity": 0.8
+            },
+            "encoding": {
+                "longitude": {
+                    "field": "Longitude",
+                    "type": "quantitative"
+                },
+                "latitude": {
+                    "field": "Latitude",
+                    "type": "quantitative"
+                }
+            }
+        }
+    ],
+    "config": {
+        "view": {
+            "stroke": null
+        }
+    }
+}

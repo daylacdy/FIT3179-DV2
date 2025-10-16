@@ -1,0 +1,97 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 400,
+    "height": 400,
+    "data": {
+        "values": [
+            {
+                "Country": "Singapore",
+                "Arrivals": 6526262
+            },
+            {
+                "Country": "China",
+                "Arrivals": 1441184
+            },
+            {
+                "Country": "Indonesia",
+                "Arrivals": 1466923
+            },
+            {
+                "Country": "Thailand",
+                "Arrivals": 833610
+            },
+            {
+                "Country": "Brunei",
+                "Arrivals": 480916
+            },
+            {
+                "Country": "India",
+                "Arrivals": 484791
+            }
+        ]
+    },
+    "mark": {
+        "type": "arc",
+        "innerRadius": 60,
+        "tooltip": true,
+        "stroke": "white",
+        "strokeWidth": 2
+    },
+    "encoding": {
+        "theta": {
+            "field": "Arrivals",
+            "type": "quantitative",
+            "stack": true
+        },
+        "color": {
+            "field": "Country",
+            "type": "nominal",
+            "scale": {
+                "domain": [
+                    "Singapore",
+                    "China",
+                    "Indonesia",
+                    "Thailand",
+                    "Brunei",
+                    "India"
+                ],
+                "range": [
+                    "#5EB3B3",
+                    "#3D9999",
+                    "#f39c12",
+                    "#e74c3c",
+                    "#9b59b6",
+                    "#3498db"
+                ]
+            },
+            "legend": {
+                "title": "Country",
+                "orient": "right",
+                "labelFontSize": 12,
+                "titleFontSize": 13,
+                "titleFontWeight": 600
+            }
+        },
+        "tooltip": [
+            {
+                "field": "Country",
+                "type": "nominal",
+                "title": "Country"
+            },
+            {
+                "field": "Arrivals",
+                "type": "quantitative",
+                "title": "Arrivals",
+                "format": ","
+            },
+            {
+                "calculate": "format(datum.Arrivals / 11234670 * 100, '.1f') + '%'",
+                "as": "Percentage",
+                "title": "Share"
+            }
+        ]
+    },
+    "view": {
+        "stroke": null
+    }
+}

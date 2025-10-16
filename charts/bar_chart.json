@@ -1,0 +1,108 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 600,
+    "height": 400,
+    "data": {
+        "url": "data/malaysia_arrivals_combined.csv"
+    },
+    "params": [
+        {
+            "name": "Category_selection",
+            "value": "Visitors",
+            "bind": {
+                "input": "select",
+                "options": [
+                    "Visitors",
+                    "Tourists",
+                    "Excursionists"
+                ],
+                "name": "Category: "
+            }
+        },
+        {
+            "name": "Year_highlight",
+            "value": null,
+            "select": {
+                "type": "point",
+                "fields": [
+                    "Year"
+                ],
+                "on": "click"
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter": "datum.Category == Category_selection"
+        }
+    ],
+    "mark": {
+        "type": "bar",
+        "cursor": "pointer",
+        "tooltip": true
+    },
+    "encoding": {
+        "x": {
+            "field": "Year",
+            "type": "ordinal",
+            "axis": {
+                "labelAngle": 0,
+                "title": null,
+                "labelFontSize": 12,
+                "grid": false
+            }
+        },
+        "y": {
+            "field": "Arrivals_millions",
+            "type": "quantitative",
+            "axis": {
+                "title": "Arrivals (millions)",
+                "grid": true,
+                "gridOpacity": 0.3
+            }
+        },
+        "color": {
+            "condition": {
+                "param": "Year_highlight",
+                "value": "#2E8B8B"
+            },
+            "value": "#5EB3B3"
+        },
+        "opacity": {
+            "condition": {
+                "param": "Year_highlight",
+                "value": 1
+            },
+            "value": 0.7
+        },
+        "tooltip": [
+            {
+                "field": "Year",
+                "type": "ordinal",
+                "title": "Year"
+            },
+            {
+                "field": "Category",
+                "type": "nominal",
+                "title": "Category"
+            },
+            {
+                "field": "Arrivals_millions",
+                "type": "quantitative",
+                "title": "Arrivals (millions)",
+                "format": ".1f"
+            }
+        ]
+    },
+    "config": {
+        "axis": {
+            "labelFont": "Arial, sans-serif",
+            "titleFont": "Arial, sans-serif"
+        },
+        "title": {
+            "font": "Arial, sans-serif",
+            "fontSize": 16,
+            "fontWeight": "bold"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+Category,Transport_Mode,Share_pct
+Visitors,LAND,66.2
+Visitors,AIR,28.8
+Visitors,SEA,3.7
+Visitors,RAIL,1.2
+Tourists,LAND,50.3
+Tourists,AIR,42.9
+Tourists,SEA,5.8
+Tourists,RAIL,1.0
+Excursionists,LAND,92.7
+Excursionists,AIR,5.3
+Excursionists,SEA,0.4
+Excursionists,RAIL,1.6
+
