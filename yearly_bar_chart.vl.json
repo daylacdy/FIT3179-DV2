@@ -1,0 +1,178 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Visitor Arrivals to Malaysia (2019-2025)",
+    "width": 600,
+    "height": 400,
+    "data": {
+        "values": [
+            {
+                "Year": 2019,
+                "Category": "Visitors",
+                "Arrivals_millions": 35.0
+            },
+            {
+                "Year": 2020,
+                "Category": "Visitors",
+                "Arrivals_millions": 6.0
+            },
+            {
+                "Year": 2021,
+                "Category": "Visitors",
+                "Arrivals_millions": 0.0
+            },
+            {
+                "Year": 2022,
+                "Category": "Visitors",
+                "Arrivals_millions": 14.0
+            },
+            {
+                "Year": 2023,
+                "Category": "Visitors",
+                "Arrivals_millions": 29.0
+            },
+            {
+                "Year": 2024,
+                "Category": "Visitors",
+                "Arrivals_millions": 38.0
+            },
+            {
+                "Year": 2025,
+                "Category": "Visitors",
+                "Arrivals_millions": 25.0
+            },
+            {
+                "Year": 2019,
+                "Category": "Tourists",
+                "Arrivals_millions": 26.1
+            },
+            {
+                "Year": 2020,
+                "Category": "Tourists",
+                "Arrivals_millions": 4.3
+            },
+            {
+                "Year": 2021,
+                "Category": "Tourists",
+                "Arrivals_millions": 0.0
+            },
+            {
+                "Year": 2022,
+                "Category": "Tourists",
+                "Arrivals_millions": 10.1
+            },
+            {
+                "Year": 2023,
+                "Category": "Tourists",
+                "Arrivals_millions": 20.1
+            },
+            {
+                "Year": 2024,
+                "Category": "Tourists",
+                "Arrivals_millions": 26.3
+            },
+            {
+                "Year": 2025,
+                "Category": "Tourists",
+                "Arrivals_millions": 17.2
+            },
+            {
+                "Year": 2019,
+                "Category": "Excursionists",
+                "Arrivals_millions": 8.9
+            },
+            {
+                "Year": 2020,
+                "Category": "Excursionists",
+                "Arrivals_millions": 1.7
+            },
+            {
+                "Year": 2021,
+                "Category": "Excursionists",
+                "Arrivals_millions": 0.0
+            },
+            {
+                "Year": 2022,
+                "Category": "Excursionists",
+                "Arrivals_millions": 3.9
+            },
+            {
+                "Year": 2023,
+                "Category": "Excursionists",
+                "Arrivals_millions": 8.9
+            },
+            {
+                "Year": 2024,
+                "Category": "Excursionists",
+                "Arrivals_millions": 11.7
+            },
+            {
+                "Year": 2025,
+                "Category": "Excursionists",
+                "Arrivals_millions": 7.8
+            }
+        ]
+    },
+    "params": [
+        {
+            "name": "CategorySelection",
+            "value": "Visitors",
+            "bind": {
+                "input": "select",
+                "options": [
+                    "Visitors",
+                    "Tourists",
+                    "Excursionists"
+                ],
+                "name": "Category: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter": "datum.Category == CategorySelection"
+        }
+    ],
+    "mark": {
+        "type": "bar",
+        "tooltip": true,
+        "cornerRadiusEnd": 4,
+        "color": "#5EB3B3"
+    },
+    "encoding": {
+        "x": {
+            "field": "Year",
+            "type": "ordinal",
+            "axis": {
+                "labelAngle": 0,
+                "title": "Year",
+                "labelFontSize": 12
+            }
+        },
+        "y": {
+            "field": "Arrivals_millions",
+            "type": "quantitative",
+            "axis": {
+                "title": "Arrivals (millions)",
+                "grid": true
+            }
+        },
+        "tooltip": [
+            {
+                "field": "Year",
+                "type": "ordinal",
+                "title": "Year"
+            },
+            {
+                "field": "Category",
+                "type": "nominal",
+                "title": "Category"
+            },
+            {
+                "field": "Arrivals_millions",
+                "type": "quantitative",
+                "title": "Arrivals (millions)",
+                "format": ".1f"
+            }
+        ]
+    }
+}

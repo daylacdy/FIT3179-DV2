@@ -134,35 +134,200 @@
 
         // Load World Map
         function loadWorldMap() {
-            fetch('charts/world_map.json')
-                .then(response => response.json())
-                .then(spec => {
-                    // Update the category filter in the transform
-                    spec.layer[3].transform[0].filter = "datum.Category == '" + currentCategory + "'";
-                    vegaEmbed('#world-map', spec, {
-                        "actions": false,
-                        "renderer": "svg"
-                    }).catch(console.error);
-                });
+            const countryData = [
+                { "Category": "Visitors", "Country": "Singapore", "Arrivals": 6526262, "Growth_pct": 28.5, "Latitude": 1.3521, "Longitude": 103.8198 },
+                { "Category": "Visitors", "Country": "China", "Arrivals": 1441184, "Growth_pct": 37.8, "Latitude": 35.8617, "Longitude": 104.1954 },
+                { "Category": "Visitors", "Country": "Indonesia", "Arrivals": 1466923, "Growth_pct": 11.6, "Latitude": -0.7893, "Longitude": 113.9213 },
+                { "Category": "Visitors", "Country": "Thailand", "Arrivals": 833610, "Growth_pct": 3.4, "Latitude": 15.8700, "Longitude": 100.9925 },
+                { "Category": "Visitors", "Country": "Brunei", "Arrivals": 480916, "Growth_pct": -20.1, "Latitude": 4.5353, "Longitude": 114.7277 },
+                { "Category": "Visitors", "Country": "India", "Arrivals": 484791, "Growth_pct": 36.6, "Latitude": 20.5937, "Longitude": 78.9629 },
+                { "Category": "Tourists", "Country": "Singapore", "Arrivals": 2718152, "Growth_pct": 4.6, "Latitude": 1.3521, "Longitude": 103.8198 },
+                { "Category": "Tourists", "Country": "China", "Arrivals": 1231072, "Growth_pct": 28.8, "Latitude": 35.8617, "Longitude": 104.1954 },
+                { "Category": "Tourists", "Country": "Indonesia", "Arrivals": 1288979, "Growth_pct": 12.0, "Latitude": -0.7893, "Longitude": 113.9213 },
+                { "Category": "Tourists", "Country": "Thailand", "Arrivals": 593305, "Growth_pct": 9.1, "Latitude": 15.8700, "Longitude": 100.9925 },
+                { "Category": "Tourists", "Country": "India", "Arrivals": 382401, "Growth_pct": 28.9, "Latitude": 20.5937, "Longitude": 78.9629 },
+                { "Category": "Tourists", "Country": "Brunei", "Arrivals": 314480, "Growth_pct": -19.5, "Latitude": 4.5353, "Longitude": 114.7277 },
+                { "Category": "Excursionists", "Country": "Singapore", "Arrivals": 3808110, "Growth_pct": 53.7, "Latitude": 1.3521, "Longitude": 103.8198 },
+                { "Category": "Excursionists", "Country": "China", "Arrivals": 240305, "Growth_pct": -8.3, "Latitude": 35.8617, "Longitude": 104.1954 },
+                { "Category": "Excursionists", "Country": "Indonesia", "Arrivals": 210112, "Growth_pct": 133.7, "Latitude": -0.7893, "Longitude": 113.9213 },
+                { "Category": "Excursionists", "Country": "Thailand", "Arrivals": 177944, "Growth_pct": 9.2, "Latitude": 15.8700, "Longitude": 100.9925 },
+                { "Category": "Excursionists", "Country": "Brunei", "Arrivals": 166436, "Growth_pct": -21.4, "Latitude": 4.5353, "Longitude": 114.7277 },
+                { "Category": "Excursionists", "Country": "India", "Arrivals": 102390, "Growth_pct": 75.4, "Latitude": 20.5937, "Longitude": 78.9629 }
+            ];
+
+            const spec = {
+                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                "width": 600,
+                "height": 400,
+                "projection": { "type": "equirectangular", "center": [100, 10], "scale": 400 },
+                "layer": [
+                    {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+                            "format": { "type": "topojson", "feature": "oceans" }
+                        },
+                        "mark": { "type": "geoshape", "fill": "#d4e9f2" }
+                    },
+                    {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+                            "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+                        },
+                        "mark": { "type": "geoshape", "fill": "#e8e8e8", "stroke": "white", "strokeWidth": 0.5 }
+                    },
+                    {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
+                            "format": { "type": "topojson", "feature": "ne_110m_graticules_30" }
+                        },
+                        "mark": { "type": "geoshape", "fill": null, "stroke": "lightgray", "strokeWidth": 0.3 }
+                    },
+                    {
+                        "data": { "values": countryData },
+                        "transform": [{ "filter": "datum.Category == '" + currentCategory + "'" }],
+                        "mark": { "type": "circle", "tooltip": true, "stroke": "white", "strokeWidth": 1.5 },
+                        "encoding": {
+                            "longitude": { "field": "Longitude", "type": "quantitative" },
+                            "latitude": { "field": "Latitude", "type": "quantitative" },
+                            "size": {
+                                "field": "Arrivals", "type": "quantitative", "title": "Arrivals",
+                                "scale": { "domain": [100000, 7000000], "range": [100, 3000] },
+                                "legend": { "format": ".2s", "orient": "bottom-right" }
+                            },
+                            "color": {
+                                "field": "Growth_pct", "type": "quantitative", "title": "Growth %",
+                                "scale": { "domain": [-25, 0, 50, 150], "range": ["#d73027", "#fee08b", "#66c2a5", "#3288bd"] },
+                                "legend": { "orient": "bottom-right", "direction": "horizontal" }
+                            },
+                            "tooltip": [
+                                { "field": "Country", "type": "nominal", "title": "Country" },
+                                { "field": "Category", "type": "nominal", "title": "Category" },
+                                { "field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": "," },
+                                { "field": "Growth_pct", "type": "quantitative", "title": "Growth %", "format": ".1f" }
+                            ]
+                        }
+                    },
+                    {
+                        "data": { "values": [{ "Longitude": 101.9758, "Latitude": 4.2105, "label": "🇲🇾 Malaysia" }] },
+                        "mark": { "type": "text", "fontSize": 13, "fontWeight": "bold", "color": "#e74c3c", "dy": -10 },
+                        "encoding": {
+                            "longitude": { "field": "Longitude", "type": "quantitative" },
+                            "latitude": { "field": "Latitude", "type": "quantitative" },
+                            "text": { "field": "label", "type": "nominal" }
+                        }
+                    },
+                    {
+                        "data": { "values": [{ "Longitude": 101.9758, "Latitude": 4.2105 }] },
+                        "mark": { "type": "circle", "size": 200, "color": "#e74c3c", "opacity": 0.8 },
+                        "encoding": {
+                            "longitude": { "field": "Longitude", "type": "quantitative" },
+                            "latitude": { "field": "Latitude", "type": "quantitative" }
+                        }
+                    }
+                ],
+                "config": { "view": { "stroke": null } }
+            };
+
+            vegaEmbed('#world-map', spec, {
+                "actions": false,
+                "renderer": "svg"
+            }).catch(console.error);
         }
 
         // Load Transportation Chart
         function loadTransportationChart() {
-            fetch('charts/transportation_chart.json')
-                .then(response => response.json())
-                .then(spec => {
-                    // Update the category filter in the transform
-                    spec.transform[0].filter = "datum.Category == '" + currentCategory + "'";
-                    vegaEmbed('#transportation-chart', spec, {
-                        "actions": false,
-                        "renderer": "svg"
-                    }).catch(console.error);
-                });
+            const transportData = [
+                { "Category": "Visitors", "Transport_Mode": "LAND", "Share_pct": 66.2 },
+                { "Category": "Visitors", "Transport_Mode": "AIR", "Share_pct": 28.8 },
+                { "Category": "Visitors", "Transport_Mode": "SEA", "Share_pct": 3.7 },
+                { "Category": "Visitors", "Transport_Mode": "RAIL", "Share_pct": 1.2 },
+                { "Category": "Tourists", "Transport_Mode": "LAND", "Share_pct": 50.3 },
+                { "Category": "Tourists", "Transport_Mode": "AIR", "Share_pct": 42.9 },
+                { "Category": "Tourists", "Transport_Mode": "SEA", "Share_pct": 5.8 },
+                { "Category": "Tourists", "Transport_Mode": "RAIL", "Share_pct": 1.0 },
+                { "Category": "Excursionists", "Transport_Mode": "LAND", "Share_pct": 92.7 },
+                { "Category": "Excursionists", "Transport_Mode": "AIR", "Share_pct": 5.3 },
+                { "Category": "Excursionists", "Transport_Mode": "SEA", "Share_pct": 0.4 },
+                { "Category": "Excursionists", "Transport_Mode": "RAIL", "Share_pct": 1.6 }
+            ];
+
+            const spec = {
+                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                "width": 500,
+                "height": 300,
+                "data": { "values": transportData },
+                "transform": [{ "filter": "datum.Category == '" + currentCategory + "'" }],
+                "mark": { "type": "bar", "tooltip": true, "cornerRadiusEnd": 4 },
+                "encoding": {
+                    "x": {
+                        "field": "Transport_Mode", "type": "nominal", "title": "Transport Mode",
+                        "axis": { "labelAngle": 0, "labelFontSize": 12, "titleFontSize": 13, "titleFontWeight": 600, "labelColor": "#666" },
+                        "sort": "-y"
+                    },
+                    "y": {
+                        "field": "Share_pct", "type": "quantitative", "title": "Share (%)",
+                        "axis": { "grid": true, "gridOpacity": 0.2, "labelFontSize": 11, "titleFontSize": 13, "titleFontWeight": 600, "labelColor": "#666" }
+                    },
+                    "color": {
+                        "field": "Transport_Mode", "type": "nominal",
+                        "scale": { "domain": ["LAND", "AIR", "SEA", "RAIL"], "range": ["#5EB3B3", "#f39c12", "#3498db", "#9b59b6"] },
+                        "legend": null
+                    },
+                    "tooltip": [
+                        { "field": "Transport_Mode", "type": "nominal", "title": "Transport Mode" },
+                        { "field": "Share_pct", "type": "quantitative", "title": "Share %", "format": ".1f" },
+                        { "field": "Category", "type": "nominal", "title": "Category" }
+                    ]
+                },
+                "config": {
+                    "view": { "stroke": null },
+                    "axis": { "labelFont": "Roboto, Arial, sans-serif", "titleFont": "Roboto, Arial, sans-serif" }
+                }
+            };
+
+            vegaEmbed('#transportation-chart', spec, {
+                "actions": false,
+                "renderer": "svg"
+            }).catch(console.error);
         }
 
         // Load Country Pie Chart
         function loadCountryPieChart() {
-            vegaEmbed('#country-pie-chart', 'charts/country_pie_chart.json', {
+            const countryTotals = [
+                { "Country": "Singapore", "Arrivals": 6526262 },
+                { "Country": "China", "Arrivals": 1441184 },
+                { "Country": "Indonesia", "Arrivals": 1466923 },
+                { "Country": "Thailand", "Arrivals": 833610 },
+                { "Country": "Brunei", "Arrivals": 480916 },
+                { "Country": "India", "Arrivals": 484791 }
+            ];
+
+            const spec = {
+                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                "width": 400,
+                "height": 400,
+                "data": { "values": countryTotals },
+                "mark": { "type": "arc", "innerRadius": 60, "tooltip": true, "stroke": "white", "strokeWidth": 2 },
+                "encoding": {
+                    "theta": { "field": "Arrivals", "type": "quantitative", "stack": true },
+                    "color": {
+                        "field": "Country", "type": "nominal",
+                        "scale": {
+                            "domain": ["Singapore", "China", "Indonesia", "Thailand", "Brunei", "India"],
+                            "range": ["#5EB3B3", "#3D9999", "#f39c12", "#e74c3c", "#9b59b6", "#3498db"]
+                        },
+                        "legend": { "title": "Country", "orient": "right", "labelFontSize": 12, "titleFontSize": 13, "titleFontWeight": 600 }
+                    },
+                    "tooltip": [
+                        { "field": "Country", "type": "nominal", "title": "Country" },
+                        { "field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": "," },
+                        { "calculate": "format(datum.Arrivals / 11234670 * 100, '.1f') + '%'", "as": "Percentage", "title": "Share" }
+                    ]
+                },
+                "view": { "stroke": null }
+            };
+
+            vegaEmbed('#country-pie-chart', spec, {
                 "actions": false,
                 "renderer": "svg"
             }).catch(console.error);
@@ -241,7 +406,29 @@
                 "width": 550,
                 "height": 400,
                 "data": {
-                    "url": "data/yearly_arrivals.csv"
+                    "values": [
+                        { "Year": 2019, "Category": "Visitors", "Arrivals_millions": 35.0 },
+                        { "Year": 2020, "Category": "Visitors", "Arrivals_millions": 6.0 },
+                        { "Year": 2021, "Category": "Visitors", "Arrivals_millions": 0.0 },
+                        { "Year": 2022, "Category": "Visitors", "Arrivals_millions": 14.0 },
+                        { "Year": 2023, "Category": "Visitors", "Arrivals_millions": 29.0 },
+                        { "Year": 2024, "Category": "Visitors", "Arrivals_millions": 38.0 },
+                        { "Year": 2025, "Category": "Visitors", "Arrivals_millions": 25.0 },
+                        { "Year": 2019, "Category": "Tourists", "Arrivals_millions": 26.1 },
+                        { "Year": 2020, "Category": "Tourists", "Arrivals_millions": 4.3 },
+                        { "Year": 2021, "Category": "Tourists", "Arrivals_millions": 0.0 },
+                        { "Year": 2022, "Category": "Tourists", "Arrivals_millions": 10.1 },
+                        { "Year": 2023, "Category": "Tourists", "Arrivals_millions": 20.1 },
+                        { "Year": 2024, "Category": "Tourists", "Arrivals_millions": 26.3 },
+                        { "Year": 2025, "Category": "Tourists", "Arrivals_millions": 17.2 },
+                        { "Year": 2019, "Category": "Excursionists", "Arrivals_millions": 8.9 },
+                        { "Year": 2020, "Category": "Excursionists", "Arrivals_millions": 1.7 },
+                        { "Year": 2021, "Category": "Excursionists", "Arrivals_millions": 0.0 },
+                        { "Year": 2022, "Category": "Excursionists", "Arrivals_millions": 3.9 },
+                        { "Year": 2023, "Category": "Excursionists", "Arrivals_millions": 8.9 },
+                        { "Year": 2024, "Category": "Excursionists", "Arrivals_millions": 11.7 },
+                        { "Year": 2025, "Category": "Excursionists", "Arrivals_millions": 7.8 }
+                    ]
                 },
                 "transform": [
                     { "filter": "datum.Category == '" + currentCategory + "'" }
@@ -320,7 +507,32 @@
                 "width": 550,
                 "height": 400,
                 "data": {
-                    "url": "data/monthly_arrivals.csv"
+                    "values": [
+                        { "Year": "2024", "Month": "Jan", "Category": "Visitors", "Arrivals": 2431941, "MonthNum": 1 },
+                        { "Year": "2024", "Month": "Feb", "Category": "Visitors", "Arrivals": 2697941, "MonthNum": 2 },
+                        { "Year": "2024", "Month": "Mar", "Category": "Visitors", "Arrivals": 3136479, "MonthNum": 3 },
+                        { "Year": "2024", "Month": "Apr", "Category": "Visitors", "Arrivals": 2799026, "MonthNum": 4 },
+                        { "Year": "2025", "Month": "Jan", "Category": "Visitors", "Arrivals": 3756075, "MonthNum": 1 },
+                        { "Year": "2025", "Month": "Feb", "Category": "Visitors", "Arrivals": 2980330, "MonthNum": 2 },
+                        { "Year": "2025", "Month": "Mar", "Category": "Visitors", "Arrivals": 3366567, "MonthNum": 3 },
+                        { "Year": "2025", "Month": "Apr", "Category": "Visitors", "Arrivals": 3281512, "MonthNum": 4 },
+                        { "Year": "2024", "Month": "Jan", "Category": "Tourists", "Arrivals": 1771571, "MonthNum": 1 },
+                        { "Year": "2024", "Month": "Feb", "Category": "Tourists", "Arrivals": 1952043, "MonthNum": 2 },
+                        { "Year": "2024", "Month": "Mar", "Category": "Tourists", "Arrivals": 2088386, "MonthNum": 3 },
+                        { "Year": "2024", "Month": "Apr", "Category": "Tourists", "Arrivals": 1748642, "MonthNum": 4 },
+                        { "Year": "2025", "Month": "Jan", "Category": "Tourists", "Arrivals": 2458711, "MonthNum": 1 },
+                        { "Year": "2025", "Month": "Feb", "Category": "Tourists", "Arrivals": 1853122, "MonthNum": 2 },
+                        { "Year": "2025", "Month": "Mar", "Category": "Tourists", "Arrivals": 2054968, "MonthNum": 3 },
+                        { "Year": "2025", "Month": "Apr", "Category": "Tourists", "Arrivals": 1990120, "MonthNum": 4 },
+                        { "Year": "2024", "Month": "Jan", "Category": "Excursionists", "Arrivals": 660370, "MonthNum": 1 },
+                        { "Year": "2024", "Month": "Feb", "Category": "Excursionists", "Arrivals": 745898, "MonthNum": 2 },
+                        { "Year": "2024", "Month": "Mar", "Category": "Excursionists", "Arrivals": 1048093, "MonthNum": 3 },
+                        { "Year": "2024", "Month": "Apr", "Category": "Excursionists", "Arrivals": 1050384, "MonthNum": 4 },
+                        { "Year": "2025", "Month": "Jan", "Category": "Excursionists", "Arrivals": 1297364, "MonthNum": 1 },
+                        { "Year": "2025", "Month": "Feb", "Category": "Excursionists", "Arrivals": 1127208, "MonthNum": 2 },
+                        { "Year": "2025", "Month": "Mar", "Category": "Excursionists", "Arrivals": 1311599, "MonthNum": 3 },
+                        { "Year": "2025", "Month": "Apr", "Category": "Excursionists", "Arrivals": 1291392, "MonthNum": 4 }
+                    ]
                 },
                 "transform": [
                     { "filter": "datum.Category == '" + currentCategory + "'" },

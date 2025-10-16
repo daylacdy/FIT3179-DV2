@@ -1,0 +1,243 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Monthly Visitor Arrivals to Malaysia (2024-2025)",
+    "width": 600,
+    "height": 400,
+    "data": {
+        "values": [
+            {
+                "Year": "2024",
+                "Month": "Jan",
+                "Category": "Visitors",
+                "Arrivals": 2431941
+            },
+            {
+                "Year": "2024",
+                "Month": "Feb",
+                "Category": "Visitors",
+                "Arrivals": 2697941
+            },
+            {
+                "Year": "2024",
+                "Month": "Mar",
+                "Category": "Visitors",
+                "Arrivals": 3136479
+            },
+            {
+                "Year": "2024",
+                "Month": "Apr",
+                "Category": "Visitors",
+                "Arrivals": 2799026
+            },
+            {
+                "Year": "2025",
+                "Month": "Jan",
+                "Category": "Visitors",
+                "Arrivals": 3756075
+            },
+            {
+                "Year": "2025",
+                "Month": "Feb",
+                "Category": "Visitors",
+                "Arrivals": 2980330
+            },
+            {
+                "Year": "2025",
+                "Month": "Mar",
+                "Category": "Visitors",
+                "Arrivals": 3366567
+            },
+            {
+                "Year": "2025",
+                "Month": "Apr",
+                "Category": "Visitors",
+                "Arrivals": 3281512
+            },
+            {
+                "Year": "2024",
+                "Month": "Jan",
+                "Category": "Tourists",
+                "Arrivals": 1771571
+            },
+            {
+                "Year": "2024",
+                "Month": "Feb",
+                "Category": "Tourists",
+                "Arrivals": 1952043
+            },
+            {
+                "Year": "2024",
+                "Month": "Mar",
+                "Category": "Tourists",
+                "Arrivals": 2088386
+            },
+            {
+                "Year": "2024",
+                "Month": "Apr",
+                "Category": "Tourists",
+                "Arrivals": 1748642
+            },
+            {
+                "Year": "2025",
+                "Month": "Jan",
+                "Category": "Tourists",
+                "Arrivals": 2458711
+            },
+            {
+                "Year": "2025",
+                "Month": "Feb",
+                "Category": "Tourists",
+                "Arrivals": 1853122
+            },
+            {
+                "Year": "2025",
+                "Month": "Mar",
+                "Category": "Tourists",
+                "Arrivals": 2054968
+            },
+            {
+                "Year": "2025",
+                "Month": "Apr",
+                "Category": "Tourists",
+                "Arrivals": 1990120
+            },
+            {
+                "Year": "2024",
+                "Month": "Jan",
+                "Category": "Excursionists",
+                "Arrivals": 660370
+            },
+            {
+                "Year": "2024",
+                "Month": "Feb",
+                "Category": "Excursionists",
+                "Arrivals": 745898
+            },
+            {
+                "Year": "2024",
+                "Month": "Mar",
+                "Category": "Excursionists",
+                "Arrivals": 1048093
+            },
+            {
+                "Year": "2024",
+                "Month": "Apr",
+                "Category": "Excursionists",
+                "Arrivals": 1050384
+            },
+            {
+                "Year": "2025",
+                "Month": "Jan",
+                "Category": "Excursionists",
+                "Arrivals": 1297364
+            },
+            {
+                "Year": "2025",
+                "Month": "Feb",
+                "Category": "Excursionists",
+                "Arrivals": 1127208
+            },
+            {
+                "Year": "2025",
+                "Month": "Mar",
+                "Category": "Excursionists",
+                "Arrivals": 1311599
+            },
+            {
+                "Year": "2025",
+                "Month": "Apr",
+                "Category": "Excursionists",
+                "Arrivals": 1291392
+            }
+        ]
+    },
+    "params": [
+        {
+            "name": "CategorySelection",
+            "value": "Visitors",
+            "bind": {
+                "input": "select",
+                "options": [
+                    "Visitors",
+                    "Tourists",
+                    "Excursionists"
+                ],
+                "name": "Category: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter": "datum.Category == CategorySelection"
+        },
+        {
+            "calculate": "datum.Year + '-' + datum.Month",
+            "as": "YearMonth"
+        }
+    ],
+    "mark": {
+        "type": "bar",
+        "tooltip": true,
+        "cornerRadiusEnd": 4
+    },
+    "encoding": {
+        "x": {
+            "field": "YearMonth",
+            "type": "ordinal",
+            "axis": {
+                "labelAngle": -45,
+                "title": "Month",
+                "labelFontSize": 11
+            }
+        },
+        "y": {
+            "field": "Arrivals",
+            "type": "quantitative",
+            "axis": {
+                "title": "Arrivals",
+                "grid": true,
+                "format": ".2s"
+            }
+        },
+        "color": {
+            "field": "Year",
+            "type": "nominal",
+            "scale": {
+                "domain": [
+                    "2024",
+                    "2025"
+                ],
+                "range": [
+                    "#3D9999",
+                    "#5EB3B3"
+                ]
+            },
+            "legend": {
+                "title": "Year"
+            }
+        },
+        "tooltip": [
+            {
+                "field": "Year",
+                "type": "nominal",
+                "title": "Year"
+            },
+            {
+                "field": "Month",
+                "type": "nominal",
+                "title": "Month"
+            },
+            {
+                "field": "Category",
+                "type": "nominal",
+                "title": "Category"
+            },
+            {
+                "field": "Arrivals",
+                "type": "quantitative",
+                "title": "Arrivals",
+                "format": ","
+            }
+        ]
+    }
+}
