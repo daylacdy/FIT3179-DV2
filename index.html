@@ -1,613 +1,742 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Visitor Arrivals to Malaysia</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive visualization exploring Malaysia's inbound tourism patterns and trends (2024)">
+    <meta name="author" content="Danyang Cui">
+    <title>Inbound Tourism in Malaysia: Patterns and Insights</title>
 
-    <!-- Import Vega & Vega-Lite -->
-    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
-
-    <!-- Import pure.css -->
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
-        integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS file -->
-    <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
-
 <body>
-    <div class="page">
+    <header>
+        <h1>Inbound Tourism in Malaysia: Patterns and Insights</h1>
+        <p class="subtitle">From visitor origins and seasonal peaks to spending behavior and entry channels</p>
+        <p class="author">By Danyang Cui | FIT3179 Data Visualisation 2 | October 2025</p>
+    </header>
 
-        <!-- Header Section -->
-        <div class="header">
-            <h1>VISITOR ARRIVALS TO MALAYSIA</h1>
-            <p class="subtitle">Comprehensive Analysis of Tourism Trends (2019-2025)</p>
+    <main>
+        <section class="intro">
+            <h2>Overall Story</h2>
+            <p>Visitor structure dominated by Asian proximity, yet marked by distinct seasonal shifts.</p>
+            <p>Asian markets drive the volume (flow), while high-value Western markets elevate per-visitor profitability.</p>
+        </section>
+
+        <div class="grid">
+            <section>
+                <h2>1.1 Visitor Distribution Across Malaysian States</h2>
+                <p class="description">The distribution of international arrivals reveals Johor and Selangor as primary entry points, driven by proximity to Singapore and the capital region's connectivity.</p>
+                <div class="viz-container" id="vis-malaysia-map"></div>
+                <p class="insight"><strong>Key Insight:</strong> Johor dominates with 17.7M arrivals (47% of total) due to land crossings from Singapore, while Selangor ranks second with 8.3M arrivals, benefiting from KLIA's international air hub status. In contrast, lighter shades across East Malaysia suggest comparatively smaller inflows, highlighting regional gaps. These sites show consistent entry distribution. Tourist attractions align with entry points.</p>
+            </section>
+
+            <section>
+                <h2>1.2 Source Countries: Global Distribution</h2>
+                <p class="description">Tourist origins are heavily concentrated in Southeast Asia, with Singapore, Indonesia, and Thailand accounting for the majority of arrivals.</p>
+                <div class="viz-container" id="vis-world-map"></div>
+                <p class="insight"><strong>Key Insight:</strong> Darker shades show strong flows from ASEAN neighbors, with China rebounding sharply in 2024. Australia, Korea, and Japan contribute moderately, while Europe and the US remain smaller but steady source markets.</p>
+            </section>
+
+            <section class="wide">
+                <h2>2. Seasonal Trends and Peak Periods</h2>
+                <p class="description">Inbound tourism exhibits clear seasonality, with December, August, and June representing peak months driven by school holidays and year-end travel.</p>
+                <div class="viz-container" id="vis-monthly-trend"></div>
+                <p class="insight"><strong>Key Insight:</strong> Peak months (June-August, December) align with school holidays and major festivals, while February and April show dips post-Chinese New Year and Ramadan.</p>
+            </section>
+
+            <section>
+                <h2>3.1 Per Capita Spending by Country</h2>
+                <p class="description">The relationship between efficiency (per capita spending) and scale (tourist volume) helps identify high-value individual tourists. Asia contributes tourist volume, while the West delivers high-value spending.</p>
+                <div class="viz-container" id="vis-dual-axis"></div>
+                <p class="insight"><strong>Note:</strong> High-volume markets show low per-capita spending. Indonesia and India bring many visitors, but spend less. Western markets have smaller volumes, but higher spend. UK, Australia, and US visitors show strong purchasing power. These countries represent high-value tourist sources.</p>
+            </section>
+
+            <section>
+                <h2>3.2 Volume vs. Value Analysis</h2>
+                <p class="description">The scatter plot reveals distinct market segments: high-volume/low-spend (Singapore) vs. balanced high-value markets (China, UK, Australia).</p>
+                <div class="viz-container" id="vis-scatter"></div>
+                <p class="insight"><strong>Strategic Priority:</strong> Focus on UK, China, and Australia for quality tourism development while maintaining ASEAN volume.</p>
+            </section>
+
+            <section class="wide">
+                <h2>4. Visitor Expenditure Breakdown</h2>
+                <p class="description">Shopping dominates visitor expenditure at 37.4%, followed by accommodation (18.1%) and food & beverages (16.1%), highlighting Malaysia's appeal as a retail destination.</p>
+                <div class="viz-container" id="vis-expenditure"></div>
+                <p class="insight"><strong>Key Insight:</strong> Shopping, accommodation, and dining dominate total spending. This shows strong reliance on retail and basic consumption. International transport adds a significant contribution. Domestic tourism-related spending remains underdeveloped. Policy should focus on low-growth and underperforming sectors.</p>
+            </section>
+
+            <section>
+                <h2>5.1 Transport Types</h2>
+                <p class="description">Land crossings dominate with 65.7%, followed by air (30.4%), sea (2.3%), and rail (1.7%).</p>
+                <div class="viz-container" id="vis-entry-pie"></div>
+                <p class="insight"><strong>Infrastructure Insight:</strong> Malaysia's inbound tourism relies heavily on land borders. Most travelers enter via Johor–Singapore crossings.</p>
+            </section>
+
+            <section>
+                <h2>5.2 Top Border Entry Points</h2>
+                <p class="description">Tambak Johor and Gelang Patah checkpoints handle 59% of all arrivals, connecting Malaysia to Singapore.</p>
+                <div class="viz-container" id="vis-entry-lollipop"></div>
+                <p class="insight"><strong>Finding:</strong> Many are short trips or same-day visits, not long stays. Such concentration creates infrastructure pressure. Diversified entry routes are needed for resilience.</p>
+            </section>
         </div>
 
-        <!-- Main Content Section -->
-        <div class="pure-g main-content">
-
-            <!-- Left Side: Bar Chart and Controls -->
-            <div class="pure-u-1-2 left-panel">
-
-                <!-- Category Tabs -->
-                <div class="category-tabs">
-                    <button class="tab-button active" onclick="selectCategory('Visitors')" id="tab-visitors">
-                        Visitors
-                    </button>
-                    <button class="tab-button" onclick="selectCategory('Tourists')" id="tab-tourists">
-                        Tourists
-                    </button>
-                    <button class="tab-button" onclick="selectCategory('Excursionists')" id="tab-excursionists">
-                        Excursionists
-                    </button>
-                </div>
-
-                <!-- Toggle Buttons -->
-                <div class="toggle-buttons">
-                    <button class="toggle-btn active" id="btn-year" onclick="toggleView('year')">Year</button>
-                    <button class="toggle-btn" id="btn-month" onclick="toggleView('month')">Month</button>
-                </div>
-
-                <!-- Bar Chart Container -->
-                <div id="bar-chart" class="vis-container"></div>
-
-                <!-- Year Selection Buttons -->
-                <div class="year-buttons" id="year-buttons">
-                    <button class="year-btn active" onclick="selectYear('all')" id="year-all">Select all</button>
-                    <button class="year-btn" onclick="selectYear(2019)" id="year-2019">2019</button>
-                    <button class="year-btn" onclick="selectYear(2020)" id="year-2020">2020</button>
-                    <button class="year-btn" onclick="selectYear(2021)" id="year-2021">2021</button>
-                    <button class="year-btn" onclick="selectYear(2022)" id="year-2022">2022</button>
-                    <button class="year-btn" onclick="selectYear(2023)" id="year-2023">2023</button>
-                    <button class="year-btn" onclick="selectYear(2024)" id="year-2024">2024</button>
-                    <button class="year-btn" onclick="selectYear(2025)" id="year-2025">2025</button>
-                </div>
-
-                <!-- Data Attribution -->
-                <div class="data-note">
-                    <p>Data as at Jul 2025</p>
-                </div>
+        <footer>
+            <h2>Data Sources & Methodology</h2>
+            <div class="data-sources">
+                <p><strong>Data sources:</strong> <a href="https://data.gov.my/data-catalogue/arrivals?utm_source" target="_blank">https://data.gov.my/data-catalogue/arrivals</a>, <a href="https://data.tourism.gov.my/?utm_source" target="_blank">https://data.tourism.gov.my</a></p>
+                <p><strong>Processing:</strong> Year aggregation, standardization across datasets, and normalization by visitor volume and receipts.</p>
             </div>
-
-            <!-- Right Side: World Map -->
-            <div class="pure-u-1-2 right-panel">
-                <h2 class="section-title">Arrivals by Source Country (2024-2025 YTD)</h2>
-
-                <!-- World Map Container -->
-                <div id="world-map" class="vis-container"></div>
-
-                <p class="chart-description">
-                    Circle size represents number of arrivals. Color indicates growth rate compared to 2024.
-                </p>
-            </div>
-        </div>
-
-        <!-- Bottom Section: Transportation and Country Charts -->
-        <div class="bottom-section">
-            <div class="pure-g">
-
-                <!-- Transportation Mode Chart -->
-                <div class="pure-u-1-2 chart-panel">
-                    <h2 class="section-title">Transportation Mode Distribution</h2>
-                    <div id="transportation-chart" class="vis-container"></div>
-                    <p class="chart-description">
-                        Share of arrivals by transportation mode
-                    </p>
-                </div>
-
-                <!-- Country Arrivals Pie Chart -->
-                <div class="pure-u-1-2 chart-panel">
-                    <h2 class="section-title">Overall Arrivals by Country</h2>
-                    <div id="country-pie-chart" class="vis-container"></div>
-                    <p class="chart-description">
-                        Distribution of total arrivals by source country (2024-2025 YTD)
-                    </p>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
+            <p class="copyright">© 2025 Danyang Cui | FIT3179 Data Visualisation 2, Monash University | Last Updated: 21/10/2025</p>
+        </footer>
+    </main>
 
     <script type="text/javascript">
-        let currentCategory = 'Visitors';
-        let currentYear = 'all';
-        let currentView = 'year'; // 'year' or 'month'
+        // Color schemes
+        const warmScheme = ['#F1F0E8', '#E5E1DA', '#B3C8CF', '#89A8B2'];
+        const coolScheme = ['#89A8B2', '#B3C8CF', '#E5E1DA', '#F1F0E8'];
 
-        // Load initial visualizations
-        function loadVisualizations() {
-            loadBarChart();
-            loadWorldMap();
-            loadTransportationChart();
-            loadCountryPieChart();
-        }
-
-        // Load World Map
-        function loadWorldMap() {
-            const countryData = [
-                { "Category": "Visitors", "Country": "Singapore", "Arrivals": 6526262, "Growth_pct": 28.5, "Latitude": 1.3521, "Longitude": 103.8198 },
-                { "Category": "Visitors", "Country": "China", "Arrivals": 1441184, "Growth_pct": 37.8, "Latitude": 35.8617, "Longitude": 104.1954 },
-                { "Category": "Visitors", "Country": "Indonesia", "Arrivals": 1466923, "Growth_pct": 11.6, "Latitude": -0.7893, "Longitude": 113.9213 },
-                { "Category": "Visitors", "Country": "Thailand", "Arrivals": 833610, "Growth_pct": 3.4, "Latitude": 15.8700, "Longitude": 100.9925 },
-                { "Category": "Visitors", "Country": "Brunei", "Arrivals": 480916, "Growth_pct": -20.1, "Latitude": 4.5353, "Longitude": 114.7277 },
-                { "Category": "Visitors", "Country": "India", "Arrivals": 484791, "Growth_pct": 36.6, "Latitude": 20.5937, "Longitude": 78.9629 },
-                { "Category": "Tourists", "Country": "Singapore", "Arrivals": 2718152, "Growth_pct": 4.6, "Latitude": 1.3521, "Longitude": 103.8198 },
-                { "Category": "Tourists", "Country": "China", "Arrivals": 1231072, "Growth_pct": 28.8, "Latitude": 35.8617, "Longitude": 104.1954 },
-                { "Category": "Tourists", "Country": "Indonesia", "Arrivals": 1288979, "Growth_pct": 12.0, "Latitude": -0.7893, "Longitude": 113.9213 },
-                { "Category": "Tourists", "Country": "Thailand", "Arrivals": 593305, "Growth_pct": 9.1, "Latitude": 15.8700, "Longitude": 100.9925 },
-                { "Category": "Tourists", "Country": "India", "Arrivals": 382401, "Growth_pct": 28.9, "Latitude": 20.5937, "Longitude": 78.9629 },
-                { "Category": "Tourists", "Country": "Brunei", "Arrivals": 314480, "Growth_pct": -19.5, "Latitude": 4.5353, "Longitude": 114.7277 },
-                { "Category": "Excursionists", "Country": "Singapore", "Arrivals": 3808110, "Growth_pct": 53.7, "Latitude": 1.3521, "Longitude": 103.8198 },
-                { "Category": "Excursionists", "Country": "China", "Arrivals": 240305, "Growth_pct": -8.3, "Latitude": 35.8617, "Longitude": 104.1954 },
-                { "Category": "Excursionists", "Country": "Indonesia", "Arrivals": 210112, "Growth_pct": 133.7, "Latitude": -0.7893, "Longitude": 113.9213 },
-                { "Category": "Excursionists", "Country": "Thailand", "Arrivals": 177944, "Growth_pct": 9.2, "Latitude": 15.8700, "Longitude": 100.9925 },
-                { "Category": "Excursionists", "Country": "Brunei", "Arrivals": 166436, "Growth_pct": -21.4, "Latitude": 4.5353, "Longitude": 114.7277 },
-                { "Category": "Excursionists", "Country": "India", "Arrivals": 102390, "Growth_pct": 75.4, "Latitude": 20.5937, "Longitude": 78.9629 }
-            ];
-
-            const spec = {
-                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                "width": 600,
-                "height": 400,
-                "projection": { "type": "equirectangular", "center": [100, 10], "scale": 400 },
-                "layer": [
-                    {
-                        "data": {
-                            "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-                            "format": { "type": "topojson", "feature": "oceans" }
-                        },
-                        "mark": { "type": "geoshape", "fill": "#d4e9f2" }
-                    },
-                    {
-                        "data": {
-                            "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
-                            "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
-                        },
-                        "mark": { "type": "geoshape", "fill": "#e8e8e8", "stroke": "white", "strokeWidth": 0.5 }
-                    },
-                    {
-                        "data": {
-                            "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
-                            "format": { "type": "topojson", "feature": "ne_110m_graticules_30" }
-                        },
-                        "mark": { "type": "geoshape", "fill": null, "stroke": "lightgray", "strokeWidth": 0.3 }
-                    },
-                    {
-                        "data": { "values": countryData },
-                        "transform": [{ "filter": "datum.Category == '" + currentCategory + "'" }],
-                        "mark": { "type": "circle", "tooltip": true, "stroke": "white", "strokeWidth": 1.5 },
-                        "encoding": {
-                            "longitude": { "field": "Longitude", "type": "quantitative" },
-                            "latitude": { "field": "Latitude", "type": "quantitative" },
-                            "size": {
-                                "field": "Arrivals", "type": "quantitative", "title": "Arrivals",
-                                "scale": { "domain": [100000, 7000000], "range": [100, 3000] },
-                                "legend": { "format": ".2s", "orient": "bottom-right" }
-                            },
-                            "color": {
-                                "field": "Growth_pct", "type": "quantitative", "title": "Growth %",
-                                "scale": { "domain": [-25, 0, 50, 150], "range": ["#d73027", "#fee08b", "#66c2a5", "#3288bd"] },
-                                "legend": { "orient": "bottom-right", "direction": "horizontal" }
-                            },
-                            "tooltip": [
-                                { "field": "Country", "type": "nominal", "title": "Country" },
-                                { "field": "Category", "type": "nominal", "title": "Category" },
-                                { "field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": "," },
-                                { "field": "Growth_pct", "type": "quantitative", "title": "Growth %", "format": ".1f" }
-                            ]
-                        }
-                    },
-                    {
-                        "data": { "values": [{ "Longitude": 101.9758, "Latitude": 4.2105, "label": "🇲🇾 Malaysia" }] },
-                        "mark": { "type": "text", "fontSize": 13, "fontWeight": "bold", "color": "#e74c3c", "dy": -10 },
-                        "encoding": {
-                            "longitude": { "field": "Longitude", "type": "quantitative" },
-                            "latitude": { "field": "Latitude", "type": "quantitative" },
-                            "text": { "field": "label", "type": "nominal" }
-                        }
-                    },
-                    {
-                        "data": { "values": [{ "Longitude": 101.9758, "Latitude": 4.2105 }] },
-                        "mark": { "type": "circle", "size": 200, "color": "#e74c3c", "opacity": 0.8 },
-                        "encoding": {
-                            "longitude": { "field": "Longitude", "type": "quantitative" },
-                            "latitude": { "field": "Latitude", "type": "quantitative" }
-                        }
-                    }
-                ],
-                "config": { "view": { "stroke": null } }
-            };
-
-            vegaEmbed('#world-map', spec, {
-                "actions": false,
-                "renderer": "svg"
-            }).catch(console.error);
-        }
-
-        // Load Transportation Chart
-        function loadTransportationChart() {
-            const transportData = [
-                { "Category": "Visitors", "Transport_Mode": "LAND", "Share_pct": 66.2 },
-                { "Category": "Visitors", "Transport_Mode": "AIR", "Share_pct": 28.8 },
-                { "Category": "Visitors", "Transport_Mode": "SEA", "Share_pct": 3.7 },
-                { "Category": "Visitors", "Transport_Mode": "RAIL", "Share_pct": 1.2 },
-                { "Category": "Tourists", "Transport_Mode": "LAND", "Share_pct": 50.3 },
-                { "Category": "Tourists", "Transport_Mode": "AIR", "Share_pct": 42.9 },
-                { "Category": "Tourists", "Transport_Mode": "SEA", "Share_pct": 5.8 },
-                { "Category": "Tourists", "Transport_Mode": "RAIL", "Share_pct": 1.0 },
-                { "Category": "Excursionists", "Transport_Mode": "LAND", "Share_pct": 92.7 },
-                { "Category": "Excursionists", "Transport_Mode": "AIR", "Share_pct": 5.3 },
-                { "Category": "Excursionists", "Transport_Mode": "SEA", "Share_pct": 0.4 },
-                { "Category": "Excursionists", "Transport_Mode": "RAIL", "Share_pct": 1.6 }
-            ];
-
-            const spec = {
-                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                "width": 500,
-                "height": 300,
-                "data": { "values": transportData },
-                "transform": [{ "filter": "datum.Category == '" + currentCategory + "'" }],
-                "mark": { "type": "bar", "tooltip": true, "cornerRadiusEnd": 4 },
-                "encoding": {
-                    "x": {
-                        "field": "Transport_Mode", "type": "nominal", "title": "Transport Mode",
-                        "axis": { "labelAngle": 0, "labelFontSize": 12, "titleFontSize": 13, "titleFontWeight": 600, "labelColor": "#666" },
-                        "sort": "-y"
-                    },
-                    "y": {
-                        "field": "Share_pct", "type": "quantitative", "title": "Share (%)",
-                        "axis": { "grid": true, "gridOpacity": 0.2, "labelFontSize": 11, "titleFontSize": 13, "titleFontWeight": 600, "labelColor": "#666" }
-                    },
-                    "color": {
-                        "field": "Transport_Mode", "type": "nominal",
-                        "scale": { "domain": ["LAND", "AIR", "SEA", "RAIL"], "range": ["#5EB3B3", "#f39c12", "#3498db", "#9b59b6"] },
-                        "legend": null
-                    },
-                    "tooltip": [
-                        { "field": "Transport_Mode", "type": "nominal", "title": "Transport Mode" },
-                        { "field": "Share_pct", "type": "quantitative", "title": "Share %", "format": ".1f" },
-                        { "field": "Category", "type": "nominal", "title": "Category" }
-                    ]
-                },
-                "config": {
-                    "view": { "stroke": null },
-                    "axis": { "labelFont": "Roboto, Arial, sans-serif", "titleFont": "Roboto, Arial, sans-serif" }
+        // 1. Malaysia Choropleth Map
+        const malaysiaChoropleth = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 500,
+            "height": 500,
+            "title": {
+                "text": "International Arrivals by State (2024)",
+                "font": "Merriweather",
+                "fontSize": 16,
+                "fontWeight": "bold",
+                "anchor": "start"
+            },
+            "data": {
+                "url": "data/malaysia_topojson.json",
+                "format": {
+                    "type": "topojson",
+                    "feature": "states"
                 }
-            };
-
-            vegaEmbed('#transportation-chart', spec, {
-                "actions": false,
-                "renderer": "svg"
-            }).catch(console.error);
-        }
-
-        // Load Country Pie Chart
-        function loadCountryPieChart() {
-            const countryTotals = [
-                { "Country": "Singapore", "Arrivals": 6526262 },
-                { "Country": "China", "Arrivals": 1441184 },
-                { "Country": "Indonesia", "Arrivals": 1466923 },
-                { "Country": "Thailand", "Arrivals": 833610 },
-                { "Country": "Brunei", "Arrivals": 480916 },
-                { "Country": "India", "Arrivals": 484791 }
-            ];
-
-            const spec = {
-                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                "width": 400,
-                "height": 400,
-                "data": { "values": countryTotals },
-                "mark": { "type": "arc", "innerRadius": 60, "tooltip": true, "stroke": "white", "strokeWidth": 2 },
-                "encoding": {
-                    "theta": { "field": "Arrivals", "type": "quantitative", "stack": true },
-                    "color": {
-                        "field": "Country", "type": "nominal",
-                        "scale": {
-                            "domain": ["Singapore", "China", "Indonesia", "Thailand", "Brunei", "India"],
-                            "range": ["#5EB3B3", "#3D9999", "#f39c12", "#e74c3c", "#9b59b6", "#3498db"]
-                        },
-                        "legend": { "title": "Country", "orient": "right", "labelFontSize": 12, "titleFontSize": 13, "titleFontWeight": 600 }
+            },
+            "transform": [{
+                "calculate": "{'Johor': 17744548, 'Selangor': 8299628, 'Pahang': 2008754, 'Sabah': 1844730, 'Perak': 1619851, 'Penang': 1403732, 'Sarawak': 773950, 'Kedah': 636398, 'Kelantan': 431296, 'Negeri Sembilan': 382844, 'Melaka': 351437, 'Terengganu': 310946, 'Perlis': 6102, 'Kuala Lumpur': 0, 'Putrajaya': 0, 'Labuan': 0}[datum.properties.Name]",
+                "as": "arrivals"
+            }],
+            "projection": {
+                "type": "mercator"
+            },
+            "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1.5},
+            "encoding": {
+                "color": {
+                    "field": "arrivals",
+                    "type": "quantitative",
+                    "scale": {
+                        "type": "threshold",
+                        "domain": [100000, 1000000, 5000000, 10000000],
+                        "range": ["#FFF5EB", "#FEE6CE", "#FDAE6B", "#E6550D", "#A63603"]
                     },
-                    "tooltip": [
-                        { "field": "Country", "type": "nominal", "title": "Country" },
-                        { "field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": "," },
-                        { "calculate": "format(datum.Arrivals / 11234670 * 100, '.1f') + '%'", "as": "Percentage", "title": "Share" }
-                    ]
-                },
-                "view": { "stroke": null }
-            };
-
-            vegaEmbed('#country-pie-chart', spec, {
-                "actions": false,
-                "renderer": "svg"
-            }).catch(console.error);
-        }
-
-        // Category selection
-        function selectCategory(category) {
-            currentCategory = category;
-
-            // Update active tab
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById('tab-' + category.toLowerCase()).classList.add('active');
-
-            // Reload all charts with new category
-            loadBarChart();
-            loadWorldMap();
-            loadTransportationChart();
-        }
-
-        // Toggle between Year and Month view
-        function toggleView(view) {
-            currentView = view;
-            currentYear = 'all'; // Reset year selection when toggling
-
-            // Update active toggle button
-            document.querySelectorAll('.toggle-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById('btn-' + view).classList.add('active');
-
-            // Update year buttons visibility
-            if (view === 'month') {
-                document.getElementById('year-buttons').style.display = 'none';
-            } else {
-                document.getElementById('year-buttons').style.display = 'flex';
-                // Reset to "select all"
-                document.querySelectorAll('.year-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                document.getElementById('year-all').classList.add('active');
-            }
-
-            // Reload chart
-            loadBarChart();
-        }
-
-        // Year selection
-        function selectYear(year) {
-            currentYear = year;
-
-            // Update active button
-            document.querySelectorAll('.year-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById('year-' + year).classList.add('active');
-
-            // Reload chart
-            loadBarChart();
-        }
-
-        // Load bar chart based on current view (year or month)
-        function loadBarChart() {
-            if (currentView === 'year') {
-                loadYearlyBarChart();
-            } else {
-                loadMonthlyBarChart();
-            }
-        }
-
-        // Load yearly bar chart
-        function loadYearlyBarChart() {
-            let spec = {
-                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                "width": 550,
-                "height": 400,
-                "data": {
-                    "values": [
-                        { "Year": 2019, "Category": "Visitors", "Arrivals_millions": 35.0 },
-                        { "Year": 2020, "Category": "Visitors", "Arrivals_millions": 6.0 },
-                        { "Year": 2021, "Category": "Visitors", "Arrivals_millions": 0.0 },
-                        { "Year": 2022, "Category": "Visitors", "Arrivals_millions": 14.0 },
-                        { "Year": 2023, "Category": "Visitors", "Arrivals_millions": 29.0 },
-                        { "Year": 2024, "Category": "Visitors", "Arrivals_millions": 38.0 },
-                        { "Year": 2025, "Category": "Visitors", "Arrivals_millions": 25.0 },
-                        { "Year": 2019, "Category": "Tourists", "Arrivals_millions": 26.1 },
-                        { "Year": 2020, "Category": "Tourists", "Arrivals_millions": 4.3 },
-                        { "Year": 2021, "Category": "Tourists", "Arrivals_millions": 0.0 },
-                        { "Year": 2022, "Category": "Tourists", "Arrivals_millions": 10.1 },
-                        { "Year": 2023, "Category": "Tourists", "Arrivals_millions": 20.1 },
-                        { "Year": 2024, "Category": "Tourists", "Arrivals_millions": 26.3 },
-                        { "Year": 2025, "Category": "Tourists", "Arrivals_millions": 17.2 },
-                        { "Year": 2019, "Category": "Excursionists", "Arrivals_millions": 8.9 },
-                        { "Year": 2020, "Category": "Excursionists", "Arrivals_millions": 1.7 },
-                        { "Year": 2021, "Category": "Excursionists", "Arrivals_millions": 0.0 },
-                        { "Year": 2022, "Category": "Excursionists", "Arrivals_millions": 3.9 },
-                        { "Year": 2023, "Category": "Excursionists", "Arrivals_millions": 8.9 },
-                        { "Year": 2024, "Category": "Excursionists", "Arrivals_millions": 11.7 },
-                        { "Year": 2025, "Category": "Excursionists", "Arrivals_millions": 7.8 }
-                    ]
-                },
-                "transform": [
-                    { "filter": "datum.Category == '" + currentCategory + "'" }
-                ],
-                "mark": {
-                    "type": "bar",
-                    "cursor": "pointer",
-                    "tooltip": true,
-                    "cornerRadiusEnd": 4
-                },
-                "encoding": {
-                    "x": {
-                        "field": "Year",
-                        "type": "ordinal",
-                        "axis": {
-                            "labelAngle": 0,
-                            "title": null,
-                            "labelFontSize": 13,
-                            "grid": false,
-                            "labelColor": "#666"
-                        }
-                    },
-                    "y": {
-                        "field": "Arrivals_millions",
-                        "type": "quantitative",
-                        "axis": {
-                            "title": "Arrivals (millions)",
-                            "grid": true,
-                            "gridOpacity": 0.2,
-                            "labelFontSize": 12,
-                            "labelColor": "#666"
-                        }
-                    },
-                    "color": {
-                        "value": "#5EB3B3"
-                    },
-                    "opacity": {
-                        "value": 1
-                    },
-                    "tooltip": [
-                        { "field": "Year", "type": "ordinal", "title": "Year" },
-                        { "field": "Category", "type": "nominal", "title": "Category" },
-                        { "field": "Arrivals_millions", "type": "quantitative", "title": "Arrivals (millions)", "format": ".1f" }
-                    ]
-                },
-                "config": {
-                    "view": { "stroke": null },
-                    "axis": {
-                        "labelFont": "Roboto, Arial, sans-serif",
-                        "titleFont": "Roboto, Arial, sans-serif"
+                    "legend": {
+                        "title": "Arrivals",
+                        "orient": "bottom-right",
+                        "format": ".2s",
+                        "titleFont": "Merriweather",
+                        "titleFontSize": 12,
+                        "labelFont": "Open Sans",
+                        "labelFontSize": 10
                     }
-                }
-            };
-
-            // Apply year filter if not "all" - make other bars transparent
-            if (currentYear !== 'all') {
-                spec.encoding.opacity = {
-                    "condition": {
-                        "test": "datum.Year == " + currentYear,
-                        "value": 1
-                    },
-                    "value": 0.15
-                };
+                },
+                "tooltip": [
+                    {"field": "properties.Name", "type": "nominal", "title": "State"},
+                    {"field": "arrivals", "type": "quantitative", "title": "Arrivals", "format": ","}
+                ]
+            },
+            "config": {
+                "view": {"stroke": null},
+                "font": "Open Sans"
             }
-
-            vegaEmbed('#bar-chart', spec, {
-                "actions": false,
-                "renderer": "svg"
-            }).catch(console.error);
-        }
-
-        // Load monthly bar chart
-        function loadMonthlyBarChart() {
-            let spec = {
-                "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                "width": 550,
-                "height": 400,
-                "data": {
-                    "values": [
-                        { "Year": "2024", "Month": "Jan", "Category": "Visitors", "Arrivals": 2431941, "MonthNum": 1 },
-                        { "Year": "2024", "Month": "Feb", "Category": "Visitors", "Arrivals": 2697941, "MonthNum": 2 },
-                        { "Year": "2024", "Month": "Mar", "Category": "Visitors", "Arrivals": 3136479, "MonthNum": 3 },
-                        { "Year": "2024", "Month": "Apr", "Category": "Visitors", "Arrivals": 2799026, "MonthNum": 4 },
-                        { "Year": "2025", "Month": "Jan", "Category": "Visitors", "Arrivals": 3756075, "MonthNum": 1 },
-                        { "Year": "2025", "Month": "Feb", "Category": "Visitors", "Arrivals": 2980330, "MonthNum": 2 },
-                        { "Year": "2025", "Month": "Mar", "Category": "Visitors", "Arrivals": 3366567, "MonthNum": 3 },
-                        { "Year": "2025", "Month": "Apr", "Category": "Visitors", "Arrivals": 3281512, "MonthNum": 4 },
-                        { "Year": "2024", "Month": "Jan", "Category": "Tourists", "Arrivals": 1771571, "MonthNum": 1 },
-                        { "Year": "2024", "Month": "Feb", "Category": "Tourists", "Arrivals": 1952043, "MonthNum": 2 },
-                        { "Year": "2024", "Month": "Mar", "Category": "Tourists", "Arrivals": 2088386, "MonthNum": 3 },
-                        { "Year": "2024", "Month": "Apr", "Category": "Tourists", "Arrivals": 1748642, "MonthNum": 4 },
-                        { "Year": "2025", "Month": "Jan", "Category": "Tourists", "Arrivals": 2458711, "MonthNum": 1 },
-                        { "Year": "2025", "Month": "Feb", "Category": "Tourists", "Arrivals": 1853122, "MonthNum": 2 },
-                        { "Year": "2025", "Month": "Mar", "Category": "Tourists", "Arrivals": 2054968, "MonthNum": 3 },
-                        { "Year": "2025", "Month": "Apr", "Category": "Tourists", "Arrivals": 1990120, "MonthNum": 4 },
-                        { "Year": "2024", "Month": "Jan", "Category": "Excursionists", "Arrivals": 660370, "MonthNum": 1 },
-                        { "Year": "2024", "Month": "Feb", "Category": "Excursionists", "Arrivals": 745898, "MonthNum": 2 },
-                        { "Year": "2024", "Month": "Mar", "Category": "Excursionists", "Arrivals": 1048093, "MonthNum": 3 },
-                        { "Year": "2024", "Month": "Apr", "Category": "Excursionists", "Arrivals": 1050384, "MonthNum": 4 },
-                        { "Year": "2025", "Month": "Jan", "Category": "Excursionists", "Arrivals": 1297364, "MonthNum": 1 },
-                        { "Year": "2025", "Month": "Feb", "Category": "Excursionists", "Arrivals": 1127208, "MonthNum": 2 },
-                        { "Year": "2025", "Month": "Mar", "Category": "Excursionists", "Arrivals": 1311599, "MonthNum": 3 },
-                        { "Year": "2025", "Month": "Apr", "Category": "Excursionists", "Arrivals": 1291392, "MonthNum": 4 }
-                    ]
-                },
-                "transform": [
-                    { "filter": "datum.Category == '" + currentCategory + "'" },
-                    { "calculate": "datum.Year + '-' + datum.Month", "as": "YearMonth" }
-                ],
-                "mark": {
-                    "type": "bar",
-                    "cursor": "pointer",
-                    "tooltip": true,
-                    "cornerRadiusEnd": 4
-                },
-                "encoding": {
-                    "x": {
-                        "field": "YearMonth",
-                        "type": "ordinal",
-                        "axis": {
-                            "labelAngle": -45,
-                            "title": null,
-                            "labelFontSize": 11,
-                            "grid": false,
-                            "labelColor": "#666"
-                        }
-                    },
-                    "y": {
-                        "field": "Arrivals",
-                        "type": "quantitative",
-                        "axis": {
-                            "title": "Arrivals",
-                            "grid": true,
-                            "gridOpacity": 0.2,
-                            "labelFontSize": 12,
-                            "labelColor": "#666",
-                            "format": ".2s"
-                        }
-                    },
-                    "color": {
-                        "field": "Year",
-                        "type": "nominal",
-                        "scale": {
-                            "domain": ["2024", "2025"],
-                            "range": ["#3D9999", "#5EB3B3"]
-                        },
-                        "legend": {
-                            "title": "Year",
-                            "orient": "top-right",
-                            "labelFontSize": 12
-                        }
-                    },
-                    "tooltip": [
-                        { "field": "Year", "type": "ordinal", "title": "Year" },
-                        { "field": "Month", "type": "nominal", "title": "Month" },
-                        { "field": "Category", "type": "nominal", "title": "Category" },
-                        { "field": "Arrivals", "type": "quantitative", "title": "Arrivals", "format": "," }
-                    ]
-                },
-                "config": {
-                    "view": { "stroke": null },
-                    "axis": {
-                        "labelFont": "Roboto, Arial, sans-serif",
-                        "titleFont": "Roboto, Arial, sans-serif"
-                    }
-                }
-            };
-
-            vegaEmbed('#bar-chart', spec, {
-                "actions": false,
-                "renderer": "svg"
-            }).catch(console.error);
-        }
-
-        // Initialize on page load
-        window.onload = function () {
-            loadVisualizations();
         };
+
+        // 2. World Map - Source Countries
+        const worldMap = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 500,
+            "height": 400,
+            "title": {
+                "text": "Top 20 Source Countries (2024)",
+                "font": "Merriweather",
+                "fontSize": 16,
+                "fontWeight": "bold",
+                "anchor": "start"
+            },
+            "layer": [
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/3_choropleth_map/js/ne_110m_admin_0_countries.topojson",
+                        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+                    },
+                    "mark": {"type": "geoshape", "fill": "#E5E1DA", "stroke": "white"},
+                    "encoding": {
+                        "tooltip": {"value": null}
+                    }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+                        "format": {"type": "topojson", "feature": "oceans"}
+                    },
+                    "mark": {"type": "geoshape", "fill": "#E8F4F8"}
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/3_choropleth_map/js/ne_110m_admin_0_countries.topojson",
+                        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+                    },
+                    "transform": [{
+                        "lookup": "properties.ADM0_A3",
+                        "from": {
+                            "data": {"url": "data/processed_top20_with_iso.csv"},
+                            "key": "iso_code",
+                            "fields": ["2024", "2023", "% Growth 2024/2023", "Country of Nationality"]
+                        }
+                    }],
+                    "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 0.5},
+                    "encoding": {
+                        "color": {
+                            "field": "2024",
+                            "type": "quantitative",
+                            "scale": {
+                                "scheme": "blues",
+                                "domain": [0, 20000000]
+                            },
+                            "legend": {
+                                "title": "Arrivals (millions)",
+                                "orient": "bottom-right",
+                                "format": ".2s",
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 12
+                            }
+                        },
+                        "tooltip": [
+                            {"field": "Country of Nationality", "type": "nominal", "title": "Country"},
+                            {"field": "2024", "type": "quantitative", "title": "2024 Arrivals", "format": ","},
+                            {"field": "2023", "type": "quantitative", "title": "2023 Arrivals", "format": ","},
+                            {"field": "% Growth 2024/2023", "type": "quantitative", "title": "Growth %", "format": ".1f"}
+                        ]
+                    }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/WorldMapWithGraticules.topojson",
+                        "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
+                    },
+                    "mark": {"type": "geoshape", "fill": null, "stroke": "#B3C8CF", "strokeWidth": 0.5}
+                }
+            ],
+            "projection": {"type": "equalEarth"},
+            "config": {
+                "view": {"stroke": null},
+                "font": "Open Sans"
+            }
+        };
+
+        // 3. Monthly Trend Line Chart
+        const monthlyTrend = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 1000,
+            "height": 400,
+            "title": {
+                "text": "Monthly Arrival Patterns with Seasonal Highlights (2024)",
+                "font": "Merriweather",
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "anchor": "middle"
+            },
+            "params": [
+                {
+                    "name": "threshold",
+                    "value": 3.0,
+                    "bind": {
+                        "input": "range",
+                        "min": 2.5,
+                        "max": 3.5,
+                        "step": 0.1,
+                        "name": "Peak Threshold (millions): "
+                    }
+                }
+            ],
+            "data": {"url": "data/arrivals_month_with_holiday.csv"},
+            "transform": [
+                {"calculate": "datum.Arrivals_2024 / 1000000", "as": "arrivals_millions"},
+                {
+                    "calculate": "{'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12}[datum.Month]",
+                    "as": "month_order"
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {"type": "line", "point": true, "color": "#89A8B2", "strokeWidth": 3},
+                    "encoding": {
+                        "x": {
+                            "field": "Month",
+                            "type": "ordinal",
+                            "sort": {"field": "month_order"},
+                            "title": "Month",
+                            "axis": {
+                                "labelAngle": -45,
+                                "labelFont": "Open Sans",
+                                "labelFontSize": 11,
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 13,
+                                "titleFontWeight": "bold"
+                            }
+                        },
+                        "y": {
+                            "field": "arrivals_millions",
+                            "type": "quantitative",
+                            "title": "Arrivals (millions)",
+                            "scale": {"domain": [2, 4]},
+                            "axis": {
+                                "labelFont": "Open Sans",
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 13,
+                                "titleFontWeight": "bold"
+                            }
+                        },
+                        "tooltip": [
+                            {"field": "Month", "type": "ordinal"},
+                            {"field": "Arrivals_2024", "type": "quantitative", "title": "Arrivals", "format": ","},
+                            {"field": "Key_Public_Holidays_2024", "type": "nominal", "title": "Holiday"},
+                            {"field": "Seasonal_Note", "type": "nominal", "title": "Note"}
+                        ]
+                    }
+                },
+                {
+                    "mark": {"type": "point", "size": 200, "filled": true, "color": "#E5E1DA", "stroke": "#89A8B2", "strokeWidth": 2},
+                    "encoding": {
+                        "x": {"field": "Month", "type": "ordinal", "sort": {"field": "month_order"}},
+                        "y": {"field": "arrivals_millions", "type": "quantitative"},
+                        "opacity": {
+                            "condition": {"test": "datum.arrivals_millions >= threshold", "value": 1},
+                            "value": 0
+                        }
+                    }
+                },
+                {
+                    "mark": {"type": "text", "dy": -15, "fontSize": 11, "fontWeight": "bold", "color": "#89A8B2"},
+                    "encoding": {
+                        "x": {"field": "Month", "type": "ordinal", "sort": {"field": "month_order"}},
+                        "y": {"field": "arrivals_millions", "type": "quantitative"},
+                        "text": {"field": "arrivals_millions", "type": "quantitative", "format": ".2f"},
+                        "opacity": {
+                            "condition": {"test": "datum.arrivals_millions >= threshold", "value": 1},
+                            "value": 0
+                        }
+                    }
+                }
+            ],
+            "config": {
+                "view": {"stroke": null},
+                "font": "Open Sans"
+            }
+        };
+
+        // 4. Dual-Axis Chart (Arrivals + Per Capita Spending)
+        const dualAxis = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 450,
+            "height": 400,
+            "title": {
+                "text": "Volume vs. Per Capita Spending",
+                "font": "Merriweather",
+                "fontSize": 16,
+                "fontWeight": "bold",
+                "anchor": "start"
+            },
+            "params": [
+                {
+                    "name": "topN",
+                    "value": 15,
+                    "bind": {
+                        "input": "range",
+                        "min": 5,
+                        "max": 15,
+                        "step": 1,
+                        "name": "Top N Countries: "
+                    }
+                }
+            ],
+            "data": {"url": "data/processed_receipts_top15.csv"},
+            "transform": [
+                {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "PerCapitaSpend_2024_RM", "order": "descending"}]},
+                {"filter": "datum.rank <= topN"}
+            ],
+            "encoding": {
+                "x": {
+                    "field": "Country",
+                    "type": "nominal",
+                    "title": null,
+                    "sort": {"field": "Arrivals_2024_millions", "order": "descending"},
+                    "axis": {"labelAngle": -45, "labelFont": "Open Sans", "labelFontSize": 10}
+                }
+            },
+            "layer": [
+                {
+                    "mark": {"type": "bar", "color": "#B3C8CF"},
+                    "encoding": {
+                        "y": {
+                            "field": "Arrivals_2024_millions",
+                            "type": "quantitative",
+                            "title": "Arrivals (millions)",
+                            "axis": {
+                                "titleColor": "#B3C8CF",
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 12,
+                                "labelFont": "Open Sans"
+                            }
+                        },
+                        "tooltip": [
+                            {"field": "Country", "type": "nominal"},
+                            {"field": "Arrivals_2024", "type": "quantitative", "title": "Arrivals", "format": ","}
+                        ]
+                    }
+                },
+                {
+                    "mark": {"type": "line", "point": true, "color": "#89A8B2", "strokeWidth": 2},
+                    "encoding": {
+                        "y": {
+                            "field": "PerCapitaSpend_2024_RM",
+                            "type": "quantitative",
+                            "title": "Per Capita Spending (RM)",
+                            "axis": {
+                                "titleColor": "#89A8B2",
+                                "orient": "right",
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 12,
+                                "labelFont": "Open Sans"
+                            }
+                        },
+                        "tooltip": [
+                            {"field": "Country", "type": "nominal"},
+                            {"field": "PerCapitaSpend_2024_RM", "type": "quantitative", "title": "Per Capita (RM)", "format": ",.0f"}
+                        ]
+                    }
+                }
+            ],
+            "resolve": {"scale": {"y": "independent"}},
+            "config": {"font": "Open Sans"}
+        };
+
+        // 5. Scatter Plot (Arrivals vs. Receipts) with Top 3 Labels
+        const scatterPlot = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 450,
+            "height": 400,
+            "title": {
+                "text": "Arrivals vs. Total Receipts (2024)",
+                "font": "Merriweather",
+                "fontSize": 16,
+                "fontWeight": "bold",
+                "anchor": "start"
+            },
+            "data": {"url": "data/arrivals_receipts_combined.csv"},
+            "transform": [
+                {"filter": "datum.Receipts_2024_RMmil != null"},
+                {"calculate": "datum.Arrivals_2024 / 1000000", "as": "arrivals_millions"},
+                {"calculate": "datum.Receipts_2024_RMmil / 1000", "as": "receipts_billions"}
+            ],
+            "layer": [
+                {
+                    "mark": {"type": "circle", "opacity": 0.8},
+                    "encoding": {
+                        "x": {
+                            "field": "arrivals_millions",
+                            "type": "quantitative",
+                            "title": "Arrivals (millions)",
+                            "scale": {"zero": false},
+                            "axis": {
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 12,
+                                "titleFontWeight": "bold",
+                                "labelFont": "Open Sans"
+                            }
+                        },
+                        "y": {
+                            "field": "receipts_billions",
+                            "type": "quantitative",
+                            "title": "Total Receipts (RM billions)",
+                            "scale": {"zero": false},
+                            "axis": {
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 12,
+                                "titleFontWeight": "bold",
+                                "labelFont": "Open Sans"
+                            }
+                        },
+                        "size": {
+                            "field": "PerCapitaSpend_2024_RM",
+                            "type": "quantitative",
+                            "title": "Per Capita Spend (RM)",
+                            "scale": {"range": [50, 1000]},
+                            "legend": {
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 11,
+                                "labelFont": "Open Sans",
+                                "orient": "bottom-right"
+                            }
+                        },
+                        "color": {
+                            "field": "PerCapitaSpend_2024_RM",
+                            "type": "quantitative",
+                            "scale": {"range": ["#E5E1DA", "#B3C8CF", "#89A8B2"]},
+                            "legend": null
+                        },
+                        "tooltip": [
+                            {"field": "Country", "type": "nominal"},
+                            {"field": "Arrivals_2024", "type": "quantitative", "title": "Arrivals", "format": ","},
+                            {"field": "Receipts_2024_RMmil", "type": "quantitative", "title": "Receipts (RM mil)", "format": ",.0f"},
+                            {"field": "PerCapitaSpend_2024_RM", "type": "quantitative", "title": "Per Capita (RM)", "format": ",.0f"}
+                        ]
+                    }
+                },
+                {
+                    "mark": {
+                        "type": "text",
+                        "align": "left",
+                        "dx": 8,
+                        "dy": -8,
+                        "fontSize": 11,
+                        "fontWeight": "bold",
+                        "font": "Open Sans"
+                    },
+                    "transform": [
+                        {"filter": "indexof(['Singapore', 'China', 'Indonesia'], datum.Country) >= 0"}
+                    ],
+                    "encoding": {
+                        "x": {"field": "arrivals_millions", "type": "quantitative"},
+                        "y": {"field": "receipts_billions", "type": "quantitative"},
+                        "text": {"field": "Country", "type": "nominal"},
+                        "color": {"value": "#2c3e50"}
+                    }
+                }
+            ],
+            "config": {"font": "Open Sans"}
+        };
+
+        // 6. Horizontal Bar Chart (Expenditure) - Fixed Layout
+        const expenditureChart = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 700,
+            "height": 480,
+            "title": {
+                "text": "Tourist Expenditure Components (2024)",
+                "font": "Merriweather",
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "anchor": "middle"
+            },
+            "data": {"url": "data/arrivals_types of expenses.csv"},
+            "transform": [
+                {"calculate": "datum.Value_2024_RMmil / 1000", "as": "value_billions"}
+            ],
+            "mark": {"type": "bar", "color": "#89A8B2", "cornerRadiusEnd": 3},
+            "encoding": {
+                "y": {
+                    "field": "Item",
+                    "type": "nominal",
+                    "title": null,
+                    "sort": "-x",
+                    "axis": {
+                        "labelFont": "Open Sans",
+                        "labelFontSize": 12,
+                        "labelLimit": 250,
+                        "labelPadding": 5
+                    }
+                },
+                "x": {
+                    "field": "value_billions",
+                    "type": "quantitative",
+                    "title": "Expenditure (RM billions)",
+                    "axis": {
+                        "titleFont": "Merriweather",
+                        "titleFontSize": 13,
+                        "titleFontWeight": "bold",
+                        "labelFont": "Open Sans",
+                        "labelFontSize": 11
+                    }
+                },
+                "color": {
+                    "field": "Growth_%",
+                    "type": "quantitative",
+                    "scale": {"range": ["#E5E1DA", "#B3C8CF", "#89A8B2"]},
+                    "legend": {
+                        "title": "YoY Growth %",
+                        "titleFont": "Merriweather",
+                        "titleFontSize": 11,
+                        "labelFont": "Open Sans",
+                        "orient": "bottom-right"
+                    }
+                },
+                "tooltip": [
+                    {"field": "Item", "type": "nominal"},
+                    {"field": "Value_2024_RMmil", "type": "quantitative", "title": "Value (RM mil)", "format": ",.0f"},
+                    {"field": "Growth_%", "type": "quantitative", "title": "Growth %", "format": ".1f"},
+                    {"field": "Share_2024_%", "type": "quantitative", "title": "Share %", "format": ".1f"}
+                ]
+            },
+            "config": {"font": "Open Sans"}
+        };
+
+        // 7.1 Pie Chart (Entry Modes)
+        const entryPieChart = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 400,
+            "height": 400,
+            "data": {"url": "data/processed_transport_modes.csv"},
+            "transform": [
+                {
+                    "window": [{"op": "sum", "field": "arrivals", "as": "total"}],
+                    "frame": [null, null]
+                },
+                {
+                    "calculate": "datum.arrivals / datum.total * 100",
+                    "as": "percentage"
+                }
+            ],
+            "layer": [
+                {
+                    "mark": {"type": "arc", "tooltip": true, "outerRadius": 140},
+                    "encoding": {
+                        "theta": {
+                            "field": "arrivals",
+                            "type": "quantitative",
+                            "stack": true
+                        },
+                        "color": {
+                            "field": "mode",
+                            "type": "nominal",
+                            "scale": {
+                                "domain": ["Land", "Air", "Sea", "Rail"],
+                                "range": ["#B3C8CF", "#89A8B2", "#E5E1DA", "#F1F0E8"]
+                            },
+                            "legend": {
+                                "title": "Entry Mode",
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 12,
+                                "labelFont": "Open Sans",
+                                "labelFontSize": 11,
+                                "orient": "right"
+                            }
+                        },
+                        "tooltip": [
+                            {"field": "mode", "type": "nominal", "title": "Mode"},
+                            {"field": "arrivals", "type": "quantitative", "title": "Arrivals", "format": ","},
+                            {"field": "percentage", "type": "quantitative", "title": "Percentage", "format": ".1f"}
+                        ]
+                    }
+                },
+                {
+                    "mark": {"type": "text", "radius": 170, "fontSize": 14, "fontWeight": "bold"},
+                    "encoding": {
+                        "text": {"field": "percentage", "type": "quantitative", "format": ".1f"},
+                        "color": {"value": "#2c3e50"}
+                    }
+                }
+            ],
+            "config": {"font": "Open Sans"}
+        };
+
+        // 7.2 Lollipop Chart (Border Points)
+        const entryLollipopChart = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 450,
+            "height": 400,
+            "data": {"url": "data/processed_transport_nested.csv"},
+            "transform": [
+                {"calculate": "datum.arrivals / 1000000", "as": "arrivals_millions"}
+            ],
+            "layer": [
+                {
+                    "mark": {"type": "rule", "color": "#B3C8CF", "size": 2},
+                    "encoding": {
+                        "y": {
+                            "field": "entry_point",
+                            "type": "nominal",
+                            "title": null,
+                            "sort": "-x",
+                            "axis": {
+                                "labelFont": "Open Sans",
+                                "labelFontSize": 10,
+                                "labelLimit": 200
+                            }
+                        },
+                        "x": {
+                            "field": "arrivals_millions",
+                            "type": "quantitative",
+                            "title": "Arrivals (millions)",
+                            "scale": {"domain": [0, 15]},
+                            "axis": {
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 11,
+                                "titleFontWeight": "bold",
+                                "labelFont": "Open Sans",
+                                "grid": true
+                            }
+                        }
+                    }
+                },
+                {
+                    "mark": {"type": "point", "filled": true, "size": 120},
+                    "encoding": {
+                        "y": {
+                            "field": "entry_point",
+                            "type": "nominal",
+                            "sort": "-x"
+                        },
+                        "x": {
+                            "field": "arrivals_millions",
+                            "type": "quantitative"
+                        },
+                        "color": {
+                            "field": "mode",
+                            "type": "nominal",
+                            "scale": {
+                                "domain": ["Air", "Land", "Sea", "Rail"],
+                                "range": ["#89A8B2", "#B3C8CF", "#E5E1DA", "#F1F0E8"]
+                            },
+                            "legend": {
+                                "title": "Entry Mode",
+                                "titleFont": "Merriweather",
+                                "titleFontSize": 11,
+                                "labelFont": "Open Sans",
+                                "labelFontSize": 10,
+                                "orient": "top"
+                            }
+                        },
+                        "tooltip": [
+                            {"field": "mode", "type": "nominal", "title": "Mode"},
+                            {"field": "entry_point", "type": "nominal", "title": "Entry Point"},
+                            {"field": "arrivals", "type": "quantitative", "title": "Arrivals", "format": ","}
+                        ]
+                    }
+                }
+            ],
+            "config": {"font": "Open Sans"}
+        };
+
+        // Embed all visualizations
+        vegaEmbed('#vis-malaysia-map', malaysiaChoropleth, {actions: false});
+        vegaEmbed('#vis-world-map', worldMap, {actions: false});
+        vegaEmbed('#vis-monthly-trend', monthlyTrend, {actions: false});
+        vegaEmbed('#vis-dual-axis', dualAxis, {actions: false});
+        vegaEmbed('#vis-scatter', scatterPlot, {actions: false});
+        vegaEmbed('#vis-expenditure', expenditureChart, {actions: false});
+        vegaEmbed('#vis-entry-pie', entryPieChart, {actions: false});
+        vegaEmbed('#vis-entry-lollipop', entryLollipopChart, {actions: false});
     </script>
 </body>
-
 </html>
